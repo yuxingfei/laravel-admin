@@ -1,0 +1,18 @@
+//启用
+public function enable(Request $request,[MODEL_NAME] $model)
+{
+    $id = $request->input('id');
+    is_string($id) && $id = [$id];
+    $result = $model->whereIn('id',$id)->update(['status'=>1]);
+    return $result ? success('操作成功', URL_RELOAD) : error();
+}
+
+
+//禁用
+public function disable(Request $request,[MODEL_NAME] $model)
+{
+    $id = $request->input('id');
+    is_string($id) && $id = [$id];
+    $result = $model->whereIn('id',$id)->update(['status'=>0]);
+    return $result ? success('操作成功', URL_RELOAD) : error();
+}

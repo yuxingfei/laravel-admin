@@ -1,0 +1,97 @@
+<?php
+/**
+ * [NAME]控制器
+ */
+
+namespace App\Http\Controllers\[CONTROLLER_MODULE];
+
+use Illuminate\Http\Request;
+use App\Model\[MODEL_MODULE]\[MODEL_NAME];
+[RELATION_1]
+use App\Validate\[VALIDATE_MODULE]\[VALIDATE_NAME]Validate;
+
+class [CONTROLLER_NAME]Controller extends AdminBaseController
+{
+
+    //列表
+    public function index(Request $request, [MODEL_NAME] $model)
+    {
+        $param = $request->input();
+        $model  = $model[RELATION_WITH]->addWhere($param);
+        [EXPORT_CODE]
+        $data = $model->paginate($this->admin['per_page']);
+        //关键词，排序等赋值
+        return $this->admin_view('index',array_merge(['data'  => $data,[SEARCH_DATA_LIST]],$request->query()));
+    }
+
+    //添加
+    public function add(Request $request, [MODEL_NAME] $model, [VALIDATE_NAME]Validate $validate)
+    {
+        if ($request->isMethod('post')) {
+            $param           = $request->input();
+            $validate_result = $validate->scene('add')->check($param);
+            if (!$validate_result) {
+                return error($validate->getError());
+            }
+            [ADD_FIELD_CODE]
+            $result = $model::create($param);
+
+            $url = URL_BACK;
+            if(isset($param['_create']) && $param['_create']==1){
+               $url = URL_RELOAD;
+            }
+
+            return $result ? success('添加成功',$url) : error();
+        }
+
+        [RELATION_2]
+
+        return $this->admin_view('add');
+    }
+
+    //修改
+    public function edit($id, Request $request, [MODEL_NAME] $model, [VALIDATE_NAME]Validate $validate)
+    {
+
+        $data = $model::find($id);
+        if ($request->isMethod('post')) {
+            $param           = $request->input();
+            $validate_result = $validate->scene('edit')->check($param);
+            if (!$validate_result) {
+                return error($validate->getError());
+            }
+            [EDIT_FIELD_CODE]
+            $result = $data->save($param);
+            return $result ? success() : error();
+        }
+
+        return $this->fetch('add');
+        return $this->admin_view('add',[
+            'data' => $data,
+            [RELATION_3]
+        ]);
+
+    }
+
+    //删除
+    public function del(Request $request, [MODEL_NAME] $model)
+    {
+        $id = $request->input('id');
+        is_string($id) && $id = [$id];
+        if (count($model->noDeletionId) > 0) {
+            if (is_array($id)) {
+                if (array_intersect($model->noDeletionId, $id)) {
+                    return error('ID为' . implode(',', $model->noDeletionId) . '的数据无法删除');
+                }
+            } else if (in_array($id, $model->noDeletionId)) {
+                return error('ID为' . $id . '的数据无法删除');
+            }
+        }
+
+        $count = $model->destroy($id);
+
+        return $result ? success('操作成功', URL_RELOAD) : error();
+    }
+
+    [ENABLE_CODE]
+}

@@ -1,0 +1,5 @@
+@foreach($[DATA_LIST] as $item)
+    <option value="{{$item['id']}}" @if(isset($data) && $data['[FIELD_NAME]']==$item['id'])selected @endif>
+        {{$item['[RELATION_SHOW]']}}
+    </option>
+@endforeach

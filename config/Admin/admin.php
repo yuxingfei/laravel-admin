@@ -28,7 +28,7 @@ return [
         //验证码
         'captcha'    =>    '1',
         //登录背景
-        'background' =>    '/storage/attachment/QVwFjuX19nTBVZdvENbDhrnFAJHNIOvDPai0aVun.jpeg',
+        'background' =>    '/static/admin/images/default_background.jpeg',
     ],
 
     //首页设置:后台首页参数设置

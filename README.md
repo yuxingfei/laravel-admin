@@ -52,20 +52,20 @@ php artisan storage:link
 
 交流QQ群：[682096728](https://jq.qq.com/?_wv=1027&k=8SMveoJ0)
 
-![image](https://github.com/yuxingfei/LaravelAdmin/blob/master/public/static/admin/images/qq_share_code.png)
+![Image](https://raw.githubusercontent.com/yuxingfei/images/master/qq_share_code.png)
 
 #### [LaravelAdmin](https://github.com/yuxingfei/LaravelAdmin)效果图
 
-![image](https://github.com/yuxingfei/LaravelAdmin/blob/master/public/static/admin/images/home.png)
+![Image](https://raw.githubusercontent.com/yuxingfei/images/master/home.png)
 
-![image](https://github.com/yuxingfei/LaravelAdmin/blob/master/public/static/admin/images/skin_setting.png)
+![Image](https://raw.githubusercontent.com/yuxingfei/images/master/skin_setting.png)
 
-![image](https://github.com/yuxingfei/LaravelAdmin/blob/master/public/static/admin/images/user.png)
+![Image](https://raw.githubusercontent.com/yuxingfei/images/master/user.png)
 
-![image](https://github.com/yuxingfei/LaravelAdmin/blob/master/public/static/admin/images/menu.png)
+![Image](https://raw.githubusercontent.com/yuxingfei/images/master/menu.png)
 
-![image](https://github.com/yuxingfei/LaravelAdmin/blob/master/public/static/admin/images/role.png)
+![Image](https://raw.githubusercontent.com/yuxingfei/images/master/role.png)
 
-![image](https://github.com/yuxingfei/LaravelAdmin/blob/master/public/static/admin/images/setting.png)
+![Image](https://raw.githubusercontent.com/yuxingfei/images/master/setting.png)
 
-![image](https://github.com/yuxingfei/LaravelAdmin/blob/master/public/static/admin/images/database.png)
+![Image](https://raw.githubusercontent.com/yuxingfei/images/master/database.png)

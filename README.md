@@ -1,4 +1,7 @@
 # Laravel Admin 通用后台系统
+
+#### LaravelAdmin v2.0.0版本，将基于laravel优雅风格的特性，以及服务设计模式，重构中，敬请期待。
+
 [LaravelAdmin](https://github.com/yuxingfei/LaravelAdmin) 是基于laravel 7.*的版本和AdminLTE前端样式框架开发的一套通用后台管理系统[LaravelAdmin](https://github.com/yuxingfei/LaravelAdmin)。里面吸取了很多开源项目的精髓,laravel 7、AdminLte、mews/captcha等,开箱即用，非常灵活，该版本是v1.0.0版本，后面根据大家的需求，结合laravel 7的特性，推出更有laravel 7特色的版本。欢迎各位同仁使用后，提出宝贵的意见。欢迎加入laravel admin通用后台系统技术交流QQ群: **682096728**
 
 ## LaravelAdmin安装

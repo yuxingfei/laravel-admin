@@ -42,8 +42,11 @@ php artisan storage:link
 例如我的程序运行用户是www用户:  chown -R www:www ./LaravelAdmin/
 ``` 
 
-#### 服务器配置
+#### 服务器配置或者使用Docker部署
 可参考[Laravel 7 安装配置](https://learnku.com/docs/laravel/7.x/installation/7447)
+
+#### Docker部署方式
+可参考[docker-lnmp环境部署](https://github.com/yuxingfei/docker_lnmp)
 
 #### 访问后台
 访问`/admin`，默认超级管理员的账号密码都为`super_admin`。

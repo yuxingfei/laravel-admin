@@ -33,7 +33,6 @@ return [
 
     'lifetime' => env('SESSION_LIFETIME', 120),
 
-    //关闭浏览器，session是否失效 true:失效,false:不失效
     'expire_on_close' => true,
 
     /*
@@ -93,9 +92,11 @@ return [
     | Session Cache Store
     |--------------------------------------------------------------------------
     |
-    | When using the "apc", "memcached", or "dynamodb" session drivers you may
+    | While using one of the framework's cache driven session backends you may
     | list a cache store that should be used for these sessions. This value
     | must match with one of the application's configured cache "stores".
+    |
+    | Affects: "apc", "dynamodb", "memcached", "redis"
     |
     */
 

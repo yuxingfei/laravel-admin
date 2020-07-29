@@ -7,34 +7,38 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Illuminate\Http\Request;
-use App\Libs\UEditor;
+use App\Services\EditorService;
 
-class EditorController extends AdminBaseController
+class EditorController extends BaseController
 {
+
     /**
-     * @var array 排除认证url
+     * @var EditorService 编辑器 服务
      */
-    protected $authExcept = [
-        'admin/editor/server',
-    ];
+    protected $editorService;
+
+    /**
+     * EditorController 构造函数.
+     *
+     * @param EditorService $editorService
+     * @throws \Illuminate\Contracts\Container\BindingResolutionException
+     */
+    public function __construct(EditorService $editorService)
+    {
+        parent::__construct();
+
+        $this->editorService = $editorService;
+    }
 
     /**
      * 编辑器上传等url
      *
-     * @param Request $request
      * @return \Illuminate\Http\JsonResponse|string
      * Author: Stephen
-     * Date: 2020/5/18 16:21
+     * Date: 2020/7/24 16:11:56
      */
-    public function server(Request $request)
+    public function server()
     {
-        $param = $request->input();
-
-        $config = config('Admin.ueditor');
-        $action  = $param['action'];
-        $editor = new UEditor($config);
-
-        return $editor->server($action);
+        return $this->editorService->server();
     }
 }

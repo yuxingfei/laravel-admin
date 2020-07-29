@@ -1,212 +1,146 @@
 <?php
 /**
- * 用户控制器
+ * Demo 用户管理
  *
- * @author yuxingfei<474949931@qq.com>
+ * User: Stephen <474949931@qq.com>
+ * Date: 2020/6/17
+ * Time: 15:19
  */
 
 namespace App\Http\Controllers\Admin;
 
-use App\Model\Common\Attachment;
-use App\Validate\Common\UserValidate;
-use Illuminate\Http\Request;
-use App\Model\Common\User;
-use App\Model\Common\UserLevel;
+use App\Services\UserService;
 
-
-class UserController extends AdminBaseController
+class UserController extends BaseController
 {
     /**
-     * 首页
-     *
-     * @param Request $request
-     * @param User $model
-     * @return \Illuminate\Contracts\Foundation\Application|mixed|string
-     * @throws \Illuminate\Contracts\Container\BindingResolutionException
-     * Author: Stephen
-     * Date: 2020/5/18 16:33
+     * @var UserService 用户管理服务
      */
-    public function index(Request $request, User $model)
+    protected $userService;
+
+    /**
+     * UserController 构造函数.
+     *
+     * @param UserService $userService
+     * @throws \Illuminate\Contracts\Container\BindingResolutionException
+     */
+    public function __construct(UserService $userService)
     {
-        $param = $request->input();
+        parent::__construct();
 
-        $model = $model->with('userLevel')->addWhere($param);
-        if (isset($param['export_data']) && $param['export_data'] == 1) {
-            $header = ['ID', '头像', '用户等级', '用户名', '手机号', '昵称', '是否启用', '创建时间',];
-            $body   = [];
-            $data   = $model->get();
-            foreach ($data as $item) {
-                $record                  = [];
-                $record['id']            = $item->id;
-                $record['avatar']        = $item->avatar;
-                $record['user_level_id'] = $item->userLevel->name ?? '';
-                $record['username']      = $item->username;
-                $record['mobile']        = $item->mobile;
-                $record['nickname']      = $item->nickname;
-                $record['status']        = $item->status == 1 ? '是':'否';
-                $record['create_time']   = $item->create_time->format('Y-m-d H:i:s');
-
-                $body[] = $record;
-            }
-            return $this->exportData($header, $body, 'user-' . date('Y-m-d-H-i-s'));
-        }
-        $data = $model->paginate($this->admin['per_page']);
-
-        //关键词，排序等赋值
-        return $this->admin_view('admin.user.index',array_merge(['data'  => $data],$request->query()));
+        $this->userService = $userService;
     }
 
     /**
-     * 添加
+     * 用户管理列表页
      *
-     * @param Request $request
-     * @param User $model
-     * @param UserValidate $validate
-     * @return \Illuminate\Contracts\Foundation\Application|mixed|void
-     * @throws \Illuminate\Contracts\Container\BindingResolutionException
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      * Author: Stephen
-     * Date: 2020/5/18 16:34
+     * Date: 2020/7/24 16:19:56
      */
-    public function add(Request $request, User $model, UserValidate $validate)
+    public function index()
     {
-        if ($request->isMethod('post')) {
-            $param           = $request->input();
+        $data = $this->userService->getPageData();
 
-            $validate_result = $validate->scene('add')->check($param);
-            if (!$validate_result) {
-                return error($validate->getError());
-            }
-            //处理头像上传
-            $attachment_avatar = new Attachment;
-            $file_avatar       = $attachment_avatar->upload('avatar');
-            if ($file_avatar) {
-                $param['avatar'] = $file_avatar->url;
-            } else {
-                return error($attachment_avatar->getError());
-            }
-
-
-            $result = $model::create($param);
-
-            $url = URL_BACK;
-            if (isset($param['_create']) && $param['_create'] == 1) {
-                $url = URL_RELOAD;
-            }
-
-            return $result ? success('添加成功', $url) : error();
-        }
-
-        return $this->admin_view('admin.user.add',['user_level_list' => UserLevel::get()]);
+        return view('admin.user.index',$data);
     }
 
     /**
-     * 修改
+     * 导出
+     *
+     * @return string|void
+     * Author: Stephen
+     * Date: 2020/7/24 16:20:11
+     */
+    public function export()
+    {
+        return $this->userService->export();
+    }
+
+    /**
+     * 添加用户界面
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * Author: Stephen
+     * Date: 2020/7/24 16:20:24
+     */
+    public function add()
+    {
+        $userLevelList = $this->userService->getUserLevel();
+
+        return view('admin.user.add',['user_level_list' => $userLevelList]);
+    }
+
+    /**
+     * 创建用户
+     *
+     * Author: Stephen
+     * Date: 2020/7/24 16:20:39
+     */
+    public function create()
+    {
+        return $this->userService->create();
+    }
+
+    /**
+     * 编辑用户
      *
      * @param $id
-     * @param Request $request
-     * @param User $model
-     * @param UserValidate $validate
-     * @return \Illuminate\Contracts\Foundation\Application|mixed|void
-     * @throws \Illuminate\Contracts\Container\BindingResolutionException
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      * Author: Stephen
-     * Date: 2020/5/18 16:34
+     * Date: 2020/7/24 16:20:52
      */
-    public function edit($id, Request $request, User $model, UserValidate $validate)
+    public function edit($id)
     {
-        $data = $model::find($id);
+        $data          = $this->userService->edit($id);
 
-        if ($request->isMethod('post')) {
-            $param           = $request->input();
-            $validate_result = $validate->scene('edit')->check($param);
-            if (!$validate_result) {
-                return error($validate->getError());
-            }
-            //处理头像上传
-            if (!empty($request->file('avatar'))) {
-                $attachment_avatar = new Attachment;
-                $file_avatar       = $attachment_avatar->upload('avatar');
-                if ($file_avatar) {
-                    $data->avatar = $file_avatar->url;
-                }
-            }
-            $data->user_level_id = $param['user_level_id'];
-            $data->username      = $param['username'];
-            $data->mobile        = $param['mobile'];
-            $data->nickname      = $param['nickname'];
-            $data->password      = $param['password'];
-            $data->status        = $param['status'];
+        $userLevelList = $this->userService->getUserLevel();
 
-            $result = $data->save();
-
-            return $result ? success() : error();
-        }
-
-        return $this->admin_view('admin.user.add',[
-            'data'            => $data,
-            'user_level_list' => UserLevel::get()
-        ]);
-
+        return view('admin.user.edit',['data' => $data,'user_level_list' => $userLevelList]);
     }
 
     /**
-     * 删除
+     * 更新用户
      *
-     * @param Request $request
-     * @param User $model
      * Author: Stephen
-     * Date: 2020/5/18 16:34
+     * Date: 2020/7/24 16:21:15
      */
-    public function del(Request $request, User $model)
+    public function update()
     {
-        $id = $request->input('id');
-        is_string($id) && $id = [$id];
-
-        if (count($model->noDeletionId) > 0) {
-            if (is_array($id)) {
-                if (array_intersect($model->noDeletionId, $id)) {
-                    return error('ID为' . implode(',', $model->noDeletionId) . '的数据无法删除');
-                }
-            } else if (in_array($id, $model->noDeletionId)) {
-                return error('ID为' . $id . '的数据无法删除');
-            }
-        }
-
-        $count = $model->destroy($id);
-
-        return $count > 0 ? success('操作成功', URL_RELOAD) : error();
+        return $this->userService->update();
     }
 
     /**
      * 启用
      *
-     * @param Request $request
-     * @param User $model
      * Author: Stephen
-     * Date: 2020/5/18 16:34
+     * Date: 2020/7/24 16:21:28
      */
-    public function enable(Request $request, User $model)
+    public function enable()
     {
-        $id = $request->input('id');
-        is_string($id) && $id = [$id];
+        return $this->userService->enable();
+    }
 
-        $result = $model->whereIn('id', $id)->update(['status' => 1]);
-        return $result ? success('操作成功', URL_RELOAD) : error();
+    /**
+     * 删除
+     *
+     * Author: Stephen
+     * Date: 2020/7/24 16:21:36
+     */
+    public function del()
+    {
+        return $this->userService->del();
     }
 
     /**
      * 禁用
      *
-     * @param Request $request
-     * @param User $model
      * Author: Stephen
-     * Date: 2020/5/18 16:35
+     * Date: 2020/5/18 16:13
      */
-    public function disable(Request $request, User $model)
+    public function disable()
     {
-        $id = $request->input('id');
-        is_string($id) && $id = [$id];
-
-        $result = $model->whereIn('id', $id)->update(['status' => 0]);
-        return $result ? success('操作成功', URL_RELOAD) : error();
+        return $this->userService->disable();
     }
+
 }

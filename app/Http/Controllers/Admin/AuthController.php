@@ -1,85 +1,58 @@
 <?php
 /**
- * 后台登录退出控制器
+ * 登录退出 控制器
  *
  * @author yuxingfei<474949931@qq.com>
  */
 
 namespace App\Http\Controllers\Admin;
 
-use App\Model\Admin\AdminUser;
-use App\Validate\Admin\AdminUserValidate;
-use Illuminate\Http\Request;
+use App\Services\AuthService;
 use Illuminate\Http\Response;
 
-class AuthController extends AdminBaseController
+class AuthController extends BaseController
 {
     /**
-     * @var array 需要排除认证的url
+     * @var AuthService 权限service
      */
-    protected $authExcept = [
-        'admin/auth/login',
-        'admin/auth/logout',
-        'admin/auth/captcha',
-        'admin/auth/initgeetest',
-    ];
+    protected $authService;
 
     /**
-     * 登录
+     * AuthController 构造函数.
      *
-     * @param Request $request
-     * @param AdminUserValidate $validate
-     * @param AdminUser $model
-     * @return \Illuminate\Contracts\Foundation\Application|mixed|void
+     * @param AuthService $authService
      * @throws \Illuminate\Contracts\Container\BindingResolutionException
-     * Author: Stephen
-     * Date: 2020/5/15 9:30
      */
-    public function login(Request $request , AdminUserValidate $validate,AdminUser $model)
+    public function __construct(AuthService $authService)
     {
-        if($request->isMethod('post')){
+        parent::__construct();
 
-            $login_config = config('Admin.admin.login');
-            $param = $request->input();
+        $this->authService = $authService;
+    }
 
-            //如果需要验证码
-            if ($login_config['captcha'] > 0) {
+    /**
+     * 显示登录界面
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * Author: Stephen
+     * Date: 2020/6/8 14:47:26
+     */
+    public function login()
+    {
+        $loginConfig = config('admin.admin.login');
 
-                if(empty($param['captcha'])){
-                    error('请输入验证码.');
-                }
+        return view('admin.auth.login',compact('loginConfig'));
+    }
 
-                $capt = captcha_check($param['captcha']);
-                if(!$capt){
-                    return error('验证码错误');
-                }
-            }
-
-            if(!$validate->scene('login')->check($param)){
-                return error($validate->getError());
-            }
-
-            try {
-                $user = $model::login($param);
-            } catch (\Exception $e) {
-                return error($e->getMessage());
-            }
-
-            $remember = isset($param['remember']) ? true : false;
-            self::authLogin($user, $remember);
-
-            $redirect = session('redirect') ?? url('admin/index/index');
-
-
-            return success('登录成功', $redirect);
-
-        }
-
-        $this->admin['title'] = '登录';
-
-        return $this->admin_view('admin.auth.login',[
-            'login_config' => config('Admin.admin.login')
-        ]);
+    /**
+     * 验证登录
+     *
+     * Author: Stephen
+     * Date: 2020/6/8 14:47:39
+     */
+    public function checkLogin()
+    {
+        return $this->authService->checkLogin();
     }
 
     /**
@@ -93,9 +66,9 @@ class AuthController extends AdminBaseController
     public function captcha(Response $response)
     {
         return $response->array([
-            'status_code' => '200',
-            'message' => 'created succeed',
-            'url' => app('captcha')->create('default', true)
+            'status_code'  => '200',
+            'message'      => 'created succeed',
+            'url'          => app('captcha')->create('default', true)
         ]);
     }
 
@@ -108,9 +81,9 @@ class AuthController extends AdminBaseController
      */
     public function logout()
     {
-        self::authLogout();
-        return redirect(url('admin/auth/login'));
-    }
+        $this->authService->loginOut();
 
+        return redirect(route('admin.auth.login'));
+    }
 
 }

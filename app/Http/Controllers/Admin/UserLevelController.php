@@ -1,200 +1,142 @@
 <?php
 /**
- * 用户等级控制器
+ * Demo 用户等级 Controller
  *
- * @author yuxingfei<474949931@qq.com>
+ * User: Stephen <474949931@qq.com>
+ * Date: 2020/7/23
+ * Time: 15:03
  */
 
 namespace App\Http\Controllers\Admin;
 
-use App\Model\Common\Attachment;
-use Illuminate\Http\Request;
-use App\Model\Common\UserLevel;
-use App\Validate\Common\UserLevelValidate;
+use App\Services\UserLevelService;
 
-class UserLevelController extends AdminBaseController
+class UserLevelController extends BaseController
 {
     /**
-     * 首页
-     *
-     * @param Request $request
-     * @param UserLevel $model
-     * @return \Illuminate\Contracts\Foundation\Application|mixed|string
-     * @throws \Illuminate\Contracts\Container\BindingResolutionException
-     * Author: Stephen
-     * Date: 2020/5/18 16:35
+     * @var UserLevelService 用户等级服务
      */
-    public function index(Request $request, UserLevel $model)
+    protected $userLevelService;
+
+    /**
+     * UserLevelController 构造函数.
+     *
+     * @param UserLevelService $userLevelService
+     * @throws \Illuminate\Contracts\Container\BindingResolutionException
+     */
+    public function __construct(UserLevelService $userLevelService)
     {
-        $param = $request->input();
+        parent::__construct();
 
-        $model = $model->addWhere($param);
-        if (isset($param['export_data']) && $param['export_data'] == 1) {
-            $header = ['ID', '名称', '简介', '是否启用', '创建时间',];
-            $body   = [];
-            $data   = $model->get();
-            foreach ($data as $item) {
-                $record                = [];
-                $record['id']          = $item->id;
-                $record['name']        = $item->name;
-                $record['description'] = $item->description;
-                $record['status']      = $item->status == 1 ? '是' : '否';
-                $record['create_time'] = $item->create_time->format('Y-m-d H:i:s');
-
-                $body[] = $record;
-            }
-            return $this->exportData($header, $body, 'user_level-' . date('Y-m-d-H-i-s'));
-        }
-        $data = $model->paginate($this->admin['per_page']);
-
-        //关键词，排序等赋值
-        return $this->admin_view('admin.user_level.index',array_merge(['data'  => $data],$request->query()));
+        $this->userLevelService = $userLevelService;
     }
 
     /**
-     * 添加
+     * 用户等级列表页
      *
-     * @param Request $request
-     * @param UserLevel $model
-     * @param UserLevelValidate $validate
-     * @return \Illuminate\Contracts\Foundation\Application|mixed|void
-     * @throws \Illuminate\Contracts\Container\BindingResolutionException
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      * Author: Stephen
-     * Date: 2020/5/18 16:35
+     * Date: 2020/7/24 16:22:17
      */
-    public function add(Request $request, UserLevel $model, UserLevelValidate $validate)
+    public function index()
     {
-        if ($request->isMethod('post')) {
-            $param           = $request->input();
-            $validate_result = $validate->scene('add')->check($param);
-            if (!$validate_result) {
-                return error($validate->getError());
-            }
-            //处理图片上传
-            $attachment_img = new Attachment;
-            $file_img       = $attachment_img->upload('img');
-            if ($file_img) {
-                $param['img'] = $file_img->url;
-            } else {
-                return error($attachment_img->getError());
-            }
+        $data = $this->userLevelService->getPageData();
 
-
-            $result = $model::create($param);
-
-            $url = URL_BACK;
-            if (isset($param['_create']) && $param['_create'] == 1) {
-                $url = URL_RELOAD;
-            }
-
-            return $result ? success('添加成功', $url) : error();
-        }
-
-        return $this->admin_view('admin.user_level.add');
+        return view('admin.user_level.index',$data);
     }
 
     /**
-     * 修改
+     * 导出
+     *
+     * @return string|void
+     * Author: Stephen
+     * Date: 2020/7/24 16:22:34
+     */
+    public function export()
+    {
+        return $this->userLevelService->export();
+    }
+
+    /**
+     * 添加用户等级界面
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * Author: Stephen
+     * Date: 2020/7/24 16:22:47
+     */
+    public function add()
+    {
+        return view('admin.user_level.add');
+    }
+
+    /**
+     * 创建用户等级
+     *
+     * Author: Stephen
+     * Date: 2020/7/24 16:22:56
+     */
+    public function create()
+    {
+        return $this->userLevelService->create();
+    }
+
+    /**
+     * 编辑用户等级界面
      *
      * @param $id
-     * @param Request $request
-     * @param UserLevel $model
-     * @param UserLevelValidate $validate
-     * @return \Illuminate\Contracts\Foundation\Application|mixed|void
-     * @throws \Illuminate\Contracts\Container\BindingResolutionException
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      * Author: Stephen
-     * Date: 2020/5/18 16:35
+     * Date: 2020/7/24 16:23:12
      */
-    public function edit($id, Request $request, UserLevel $model, UserLevelValidate $validate)
+    public function edit($id)
     {
-        $data = $model::find($id);
+        $data = $this->userLevelService->edit($id);
 
-        if ($request->isMethod('post')) {
-            $param           = $request->input();
-            $validate_result = $validate->scene('edit')->check($param);
-            if (!$validate_result) {
-                return error($validate->getError());
-            }
-            //处理图片上传
-            if (!empty($request->file('img'))) {
-                $attachment_img = new Attachment;
-                $file_img       = $attachment_img->upload('img');
-                if ($file_img) {
-                    $data->img = $file_img->url;
-                }
-            }
-
-            $data->name        = $param['name'];
-            $data->description = $param['description'];
-            $data->status      = $param['status'];
-
-            $result = $data->save();
-            return $result ? success() : error();
-        }
-
-        return $this->admin_view('admin.user_level.add',['data' => $data]);
-
+        return view('admin.user_level.edit',['data' => $data]);
     }
 
     /**
-     * 删除
+     * 更新用户等级
      *
-     * @param Request $request
-     * @param UserLevel $model
      * Author: Stephen
-     * Date: 2020/5/18 16:36
+     * Date: 2020/7/24 16:23:28
      */
-    public function del(Request $request, UserLevel $model)
+    public function update()
     {
-        $id = $request->input('id');
-        is_string($id) && $id = [$id];
-
-        if (count($model->noDeletionId) > 0) {
-            if (is_array($id)) {
-                if (array_intersect($model->noDeletionId, $id)) {
-                    return error('ID为' . implode(',', $model->noDeletionId) . '的数据无法删除');
-                }
-            } else if (in_array($id, $model->noDeletionId)) {
-                return error('ID为' . $id . '的数据无法删除');
-            }
-        }
-
-        $count = $model->destroy($id);
-
-        return $count > 0 ? success('操作成功', URL_RELOAD) : error();
+        return $this->userLevelService->update();
     }
 
     /**
      * 启用
      *
-     * @param Request $request
-     * @param UserLevel $model
      * Author: Stephen
-     * Date: 2020/5/18 16:36
+     * Date: 2020/7/24 16:23:41
      */
-    public function enable(Request $request, UserLevel $model)
+    public function enable()
     {
-        $id = $request->input('id');
-        is_string($id) && $id = [$id];
+        return $this->userLevelService->enable();
+    }
 
-        $result = $model->whereIn('id', $id)->update(['status' => 1]);
-        return $result ? success('操作成功', URL_RELOAD) : error();
+    /**
+     * 删除
+     *
+     * Author: Stephen
+     * Date: 2020/7/24 16:23:49
+     */
+    public function del()
+    {
+        return $this->userLevelService->del();
     }
 
     /**
      * 禁用
      *
-     * @param Request $request
-     * @param UserLevel $model
      * Author: Stephen
-     * Date: 2020/5/18 16:36
+     * Date: 2020/5/18 16:13
      */
-    public function disable(Request $request, UserLevel $model)
+    public function disable()
     {
-        $id = $request->input('id');
-        is_string($id) && $id = [$id];
-
-        $result = $model->whereIn('id', $id)->update(['status' => 0]);
-        return $result ? success('操作成功', URL_RELOAD) : error();
+        return $this->userLevelService->disable();
     }
+
 }

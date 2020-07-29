@@ -52,7 +52,7 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'http://laravel76.com'),
+    'url' => env('APP_URL', 'http://localhost'),
 
     'asset_url' => env('ASSET_URL', null),
 
@@ -67,7 +67,7 @@ return [
     |
     */
 
-    'timezone' => 'Asia/Chongqing',
+    'timezone' => 'UTC',
 
     /*
     |--------------------------------------------------------------------------
@@ -166,11 +166,6 @@ return [
          * Package Service Providers...
          */
 
-
-        //公用函数方法服务
-        App\Providers\HelperServiceProvider::class,
-
-
         /*
          * Application Service Providers...
          */
@@ -179,8 +174,11 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+
         //图形验证码
         Mews\Captcha\CaptchaServiceProvider::class,
+
+        App\Providers\AdminRepositoryServiceProvider::class,
 
     ],
 
@@ -235,6 +233,8 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         //图形验证码
         'Captcha' => Mews\Captcha\Facades\Captcha::class,
+        //用户认证
+        'AuthFacade' => \App\Facades\AuthFacade::class,
 
     ],
 

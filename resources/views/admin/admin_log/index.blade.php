@@ -7,7 +7,7 @@
         <div class="col-md-12">
             <div class="box">
                 <div class="box-body">
-                    <form class="form-inline searchForm" id="searchForm" action="{{url('admin/admin_log/index')}}" method="GET">
+                    <form class="form-inline searchForm" id="searchForm" action="{{route('admin.admin_log.index')}}" method="GET">
                         <div class="form-group">
                             <input value="{{isset($_keywords) ? $_keywords : ''}}"
                                    name="_keywords" id="_keywords" class="form-control input-sm" placeholder="操作/URL/IP">
@@ -79,7 +79,7 @@
                         @foreach($data as $item)
                         <tr>
                             <td>{{$item['id']}}</td>
-                            <td>{{$item['adminUser']['nickname']}}</td>
+                            <td>{{isset($item['adminUser']['nickname']) ? $item['adminUser']['nickname'] : '已删除'}}</td>
                             <td>{{$item['name']}}</td>
                             <td>{{$item['url']}}</td>
                             <td>{{$item['log_method']}}</td>

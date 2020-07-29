@@ -1,16 +1,13 @@
 <?php
 
-/**
- * 全模块 基础控制器
- *
- * @author yuxingfei<474949931@qq.com>
- */
-
 namespace App\Http\Controllers;
 
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Foundation\Bus\DispatchesJobs;
+use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
 
 class Controller extends BaseController
 {
-
+    use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 }

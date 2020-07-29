@@ -1,117 +1,122 @@
 <?php
 /**
- * 数据维护
+ * 数据库维护 控制器
  *
- *@author yuxingfei<474949931@qq.com>
+ * User: Stephen <474949931@qq.com>
+ * Date: 2020/7/24
+ * Time: 10:30
  */
 
 namespace App\Http\Controllers\Admin;
 
-
+use App\Services\DatabaseService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
-class DatabaseController extends AdminBaseController
+class DatabaseController extends BaseController
 {
+    /**
+     * 数据库服务
+     *
+     * @var DatabaseService
+     */
+    protected $databaseService;
 
     /**
-     * 获取数据表
+     * @var Request
+     */
+    protected $request;
+
+    /**
+     * DatabaseController 构造函数.
      *
-     * @return \Illuminate\Contracts\Foundation\Application|mixed
+     * @param DatabaseService $databaseService
+     * @param Request $request
      * @throws \Illuminate\Contracts\Container\BindingResolutionException
+     */
+    public function __construct(DatabaseService $databaseService,Request $request)
+    {
+        parent::__construct();
+
+        $this->databaseService = $databaseService;
+
+        $this->request         = $request;
+    }
+
+    /**
+     * 显示数据表
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      * Author: Stephen
-     * Date: 2020/5/18 16:19
+     * Date: 2020/7/24 16:10:01
      */
     public function table()
     {
-        $data = DB::select('SHOW TABLE STATUS');
-        $data = json_decode(json_encode($data),true);
-        $data = array_map('array_change_key_case', $data);
+        $data = $this->databaseService->getTableStatus();
 
-        return $this->admin_view('admin/database/table',[
+        return view('admin.database.table',[
             'data'  => $data,
             'total' => count($data),
         ]);
     }
 
     /**
-     * 查看表信息
+     * 查看数据表
      *
-     * @param Request $request
-     * @return \Illuminate\Contracts\Foundation\Application|mixed|void
-     * @throws \Illuminate\Contracts\Container\BindingResolutionException
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View|void
      * Author: Stephen
-     * Date: 2020/5/18 16:20
+     * Date: 2020/7/24 16:10:16
      */
-    public function view(Request $request)
+    public function view()
     {
-        $name = $request->query('name');
+        $name = $this->request->query('name');
 
         if (!$name) {
             return error('请指定要查看的表');
         }
 
-        $field_list = DB::select('SHOW FULL COLUMNS FROM `' . $name . '`');
-        $field_list = json_decode(json_encode($field_list),true);
+        $data = $this->databaseService->getFullColumnsFromTable($name);
 
-        $data = [];
-        foreach ($field_list as $key => $value) {
-            $data[] = [
-                'name'       => $value['Field'],
-                'type'       => $value['Type'],
-                'collation'  => $value['Collation'],
-                'null'       => $value['Null'],
-                'key'        => $value['Key'],
-                'default'    => $value['Default'],
-                'extra'      => $value['Extra'],
-                'privileges' => $value['Privileges'],
-                'comment'    => $value['Comment'],
-            ];
-        }
-
-        return $this->admin_view('admin.database.view',['data' => $data]);
+        return view('admin.database.view',[
+            'data'  => $data,
+        ]);
     }
 
     /**
      * 优化表
      *
-     * @param Request $request
      * Author: Stephen
-     * Date: 2020/5/18 16:20
+     * Date: 2020/7/24 16:10:44
      */
-    public function optimize(Request $request)
+    public function optimize()
     {
-        $name = $request->input('name');
+        $name = $this->request->input('name');
+
         if (!$name) {
             return error('请指定要优化的表');
         }
+
         $name   = is_array($name) ? implode('`,`', $name) : $name;
-        $result = DB::select("OPTIMIZE TABLE `{$name}`");
-        if ($result) {
-            return success("数据表`{$name}`优化成功");
-        }
-        return error("数据表`{$name}`优化失败");
+
+        return $this->databaseService->optimizeTable($name);
     }
 
     /**
      * 修复表
      *
-     * @param Request $request
      * Author: Stephen
-     * Date: 2020/5/18 16:20
+     * Date: 2020/7/24 16:11:04
      */
-    public function repair(Request $request)
+    public function repair()
     {
-        $name = $request->input('name');
+        $name = $this->request->input('name');
+
         if (!$name) {
             return error('请指定要修复的表');
         }
+
         $name   = is_array($name) ? implode('`,`', $name) : $name;
-        $result = DB::select("REPAIR TABLE `{$name}`");
-        if ($result) {
-            return success("数据表`{$name}`修复成功");
-        }
-        return error("数据表`{$name}`修复失败");
+
+        return $this->databaseService->repairTable($name);
     }
 
 }

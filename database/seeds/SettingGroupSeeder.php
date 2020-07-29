@@ -12,8 +12,7 @@ class SettingGroupSeeder extends Seeder
     public function run()
     {
         $arr = array (
-            0 =>
-                array (
+            0 => array(
                     'id' => 1,
                     'module' => 'admin',
                     'name' => '后台设置',

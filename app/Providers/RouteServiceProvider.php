@@ -46,9 +46,9 @@ class RouteServiceProvider extends ServiceProvider
 
         $this->mapWebRoutes();
 
-        //定义后台admin模块路由
         $this->mapAdminRoutes();
 
+        //
     }
 
     /**
@@ -81,9 +81,10 @@ class RouteServiceProvider extends ServiceProvider
     }
 
     /**
-     * 自定义admin模块后台路由
+     * 自定义admin模块路由
+     *
      * Author: Stephen
-     * Date: 2020/5/18 17:00
+     * Date: 2020/6/5 14:00:09
      */
     protected function mapAdminRoutes()
     {

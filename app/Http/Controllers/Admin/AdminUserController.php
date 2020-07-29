@@ -1,241 +1,184 @@
 <?php
 /**
- * 后台用户控制器
+ * 后台用户管理 控制器
  *
  * @author yuxingfei<474949931@qq.com>
  */
 
 namespace App\Http\Controllers\Admin;
 
-use App\Model\Common\Attachment;
-use App\Validate\Admin\AdminUserValidate;
-use Illuminate\Http\Request;
-use App\Model\Admin\AdminRole;
-use App\Model\Admin\AdminUser;
+use App\Services\AdminUserService;
 
-class AdminUserController extends AdminBaseController
+class AdminUserController extends BaseController
 {
+    /**
+     * 用户服务
+     *
+     * @var AdminUserService
+     */
+    protected $adminUserService;
 
     /**
-     * 首页
+     * AdminUserController 构造函数.
      *
-     * @param Request $request
-     * @param AdminUser $model
-     * @return \Illuminate\Contracts\Foundation\Application|mixed
+     * @param AdminUserService $adminUserService
      * @throws \Illuminate\Contracts\Container\BindingResolutionException
-     * Author: Stephen
-     * Date: 2020/5/18 16:15
      */
-    public function index(Request $request, AdminUser $model)
+    public function __construct(AdminUserService $adminUserService)
     {
-        $param = $request->input();
-        $data  = $model->addWhere($param)->paginate($this->admin['per_page']);
+        parent::__construct();
 
-        return $this->admin_view('admin.admin_user.index',array_merge(['data'  => $data],$request->query()));
+        $this->adminUserService = $adminUserService;
     }
 
     /**
-     * 添加
+     * 用户管理首页
      *
-     * @param Request $request
-     * @param AdminUser $model
-     * @param AdminUserValidate $validate
-     * @return \Illuminate\Contracts\Foundation\Application|mixed|void
-     * @throws \Illuminate\Contracts\Container\BindingResolutionException
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      * Author: Stephen
-     * Date: 2020/5/18 16:16
+     * Date: 2020/7/24 15:15:55
      */
-    public function add(Request $request, AdminUser $model, AdminUserValidate $validate)
+    public function index()
     {
-        if ($request->isMethod('post')) {
-            $param           = $request->input();
+        $data = $this->adminUserService->getPageData();
 
-            $validate_result = $validate->scene('add')->check($param);
-            if (!$validate_result) {
-                return error($validate->getError());
-            }
+        return view('admin.admin_user.index',$data);
+    }
 
-            $result = $model::create($param);
+    /**
+     * 添加用户界面
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * Author: Stephen
+     * Date: 2020/7/24 15:16:09
+     */
+    public function add()
+    {
+        $role = $this->adminUserService->allRole();
 
-            $url = URL_BACK;
-            if (isset($param['_create']) && $param['_create'] == 1) {
-                $url = URL_RELOAD;
-            }
-
-            return $result ? success('添加成功', $url) : error();
-        }
-
-        $role = AdminRole::all();
-
-        return $this->admin_view('admin.admin_user.add',[
+        return view('admin.admin_user.add',[
             'role' => $role
         ]);
     }
 
     /**
-     * 修改
+     * 编辑用户界面
      *
      * @param $id
-     * @param Request $request
-     * @param AdminUser $model
-     * @param AdminUserValidate $validate
-     * @return \Illuminate\Contracts\Foundation\Application|mixed|void
-     * @throws \Illuminate\Contracts\Container\BindingResolutionException
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      * Author: Stephen
-     * Date: 2020/5/18 16:16
+     * Date: 2020/7/24 15:16:28
      */
-    public function edit($id, Request $request, AdminUser $model, AdminUserValidate $validate)
+    public function edit($id)
     {
-        $data = $model::find($id);
+        $data = $this->adminUserService->edit($id);
 
-        if ($request->isMethod('post')) {
-            $param           = $request->input();
-            $validate_result = $validate->scene('edit')->check($param);
-            if (!$validate_result) {
-                return error($validate->getError());
-            }
+        $role = $this->adminUserService->allRole();
 
-            $data->role     = $param['role'];
-            $data->nickname = $param['nickname'];
-            $data->username = $param['username'];
-            $data->password = $param['password'];
-            $data->status   = $param['status'];
-            $result = $data->save();
-
-            return $result ? success() : error();
-        }
-
-        $role = AdminRole::all();
-
-        return $this->admin_view('admin.admin_user.add',[
+        return view('admin.admin_user.edit',[
             'data' => $data,
             'role' => $role
         ]);
-
     }
 
     /**
-     * 删除
+     * 更新用户
      *
-     * @param Request $request
-     * @param AdminUser $model
      * Author: Stephen
-     * Date: 2020/5/18 16:17
+     * Date: 2020/7/24 15:16:57
      */
-    public function del(Request $request, AdminUser $model)
+    public function update()
     {
-        $id = $request->input('id');
-        is_string($id) && $id = [$id];
-
-        if (count($model->noDeletionId) > 0) {
-            if (is_array($id)) {
-                if (array_intersect($model->noDeletionId, $id)) {
-                    return error('ID为' . implode(',', $model->noDeletionId) . '的数据无法删除');
-                }
-            } else if (in_array($id, $model->noDeletionId)) {
-                return error('ID为' . $id . '的数据无法删除');
-            }
-        }
-
-        $count = $model->destroy($id);
-
-        return $count > 0 ? success('操作成功', URL_RELOAD) : error();
+        return $this->adminUserService->update();
     }
 
+    /**
+     * 创建用户
+     *
+     * Author: Stephen
+     * Date: 2020/7/24 15:17:10
+     */
+    public function create()
+    {
+        return $this->adminUserService->create();
+    }
 
     /**
      * 启用
      *
-     * @param Request $request
-     * @param AdminUser $model
      * Author: Stephen
-     * Date: 2020/5/18 16:17
+     * Date: 2020/7/24 15:17:23
      */
-    public function enable(Request $request, AdminUser $model)
+    public function enable()
     {
-        $id = $request->input('id');
-        is_string($id) && $id = [$id];
+        return $this->adminUserService->enable();
+    }
 
-        $result = $model->whereIn('id', $id)->update(['status' => 1]);
-        return $result ? success('操作成功', URL_RELOAD) : error();
+    /**
+     * 删除用户
+     *
+     * Author: Stephen
+     * Date: 2020/7/24 15:17:31
+     */
+    public function del()
+    {
+        return $this->adminUserService->del();
     }
 
     /**
      * 禁用
      *
-     * @param Request $request
-     * @param AdminUser $model
      * Author: Stephen
-     * Date: 2020/5/18 16:17
+     * Date: 2020/5/18 16:13
      */
-    public function disable(Request $request, AdminUser $model)
+    public function disable()
     {
-        $id = $request->input('id');
-        is_string($id) && $id = [$id];
-
-        $result = $model->whereIn('id', $id)->update(['status' => 0]);
-        return $result ? success('操作成功', URL_RELOAD) : error();
+        return $this->adminUserService->disable();
     }
 
     /**
-     * 个人资料
+     * 用户个人资料
      *
-     * @param Request $request
-     * @param AdminUserValidate $validate
-     * @return \Illuminate\Contracts\Foundation\Application|mixed|void
-     * @throws \Illuminate\Contracts\Container\BindingResolutionException
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      * Author: Stephen
-     * Date: 2020/5/18 16:18
+     * Date: 2020/7/24 15:17:46
      */
-    public function profile(Request $request, AdminUserValidate $validate)
+    public function profile()
     {
-        if ($request->isMethod('post')) {
-            $param = $request->input();
+        return view('admin.admin_user.profile');
+    }
 
-            if ($param['update_type'] === 'password') {
+    /**
+     * 修改用户名称
+     *
+     * Author: Stephen
+     * Date: 2020/7/24 15:18:22
+     */
+    public function updateNickName()
+    {
+        return $this->adminUserService->updateNickName();
+    }
 
-                $param['new_password_confirmation'] = $param['renew_password'];
-                $validate_result = $validate->scene('password')->check($param);
-                if (!$validate_result) {
-                    return error($validate->getError());
-                }
+    /**
+     * 修改用户密码
+     *
+     * Author: Stephen
+     * Date: 2020/7/24 15:18:40
+     */
+    public function updatePassword()
+    {
+        return $this->adminUserService->updatePassword();
+    }
 
-                if (!password_verify($param['password'], base64_decode($this->user->password))) {
-                    return error('当前密码不正确');
-                }
-
-                $this->user->password = $param['new_password'];
-
-            } else if ($param['update_type'] === 'avatar') {
-
-                if (!$request->file('avatar')) {
-                    return error('请上传新头像');
-                }
-
-                $attachment = new Attachment();
-                $file       = $attachment->upload('avatar');
-                if ($file) {
-                    $this->user->avatar = $file->url;
-                } else {
-                    return error($attachment->getError());
-                }
-
-            }else if($param['update_type'] === 'profile'){
-
-                $this->user->nickname = $param['nickname'];
-
-            }
-
-            if (false !== $this->user->save()) {
-
-                return success('修改成功', URL_RELOAD);
-
-            }
-
-            return error();
-        }
-
-        return $this->admin_view('admin.admin_user.profile');
+    /**
+     * 修改用户头像
+     *
+     * Author: Stephen
+     * Date: 2020/7/24 15:18:49
+     */
+    public function updateAvatar()
+    {
+        return $this->adminUserService->updateAvatar();
     }
 
 

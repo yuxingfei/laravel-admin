@@ -11,7 +11,6 @@ use Illuminate\Support\Facades\DB;
 
 class SystemInfo
 {
-
     /**
      * 获取系统配置信息
      *
@@ -25,13 +24,14 @@ class SystemInfo
 
         $require_list     = [];
         $require_dev_list = [];
+
         if (array_key_exists('require', $composer)) {
             $require_list = $composer['require'];
         }
+
         if (array_key_exists('require-dev', $composer)) {
             $require_dev_list = $composer['require-dev'];
         }
-
 
         $user_agent = request()->header('user-agent');
 
@@ -52,7 +52,6 @@ class SystemInfo
         } else {
             $user_os = 'Other';
         }
-
 
         if (false !== stripos($user_agent, 'MSIE')) {
             $user_browser = 'MSIE';
@@ -75,11 +74,12 @@ class SystemInfo
 //        if (((int)$ip_arr['status'] === 1) && is_string($ip_arr['province']) && is_string($ip_arr['city'])) {
 //            $user_ip_address = $ip_arr['province'] . ' ' . $ip_arr['city'];
 //        }
+
         $info = [
             //服务器系统
             'server_os'           => PHP_OS,
             //服务器ip
-            'server_ip'           => GetHostByName($_SERVER['SERVER_NAME']),
+            'server_ip'           => gethostbyname(gethostname()),
             //php版本
             'php_version'         => PHP_VERSION,
             //运行内存限制
@@ -93,11 +93,11 @@ class SystemInfo
             //磁盘剩余容量
             'disk_free'           => format_size(disk_free_space(base_path())),
             //Laravel版本
-            'laravel_version'       => app()->version(),
+            'laravel_version'     => app()->version(),
             //运行模式
             'php_sapi_name'       => PHP_SAPI,
             //当前后台版本
-            'admin_version'       => config('Admin.admin.base.version'),
+            'admin_version'       => config('admin.admin.base.version'),
             //mysql版本
             'db_version'          => DB::select('select VERSION() as db_version')[0]->db_version,
             //php时区

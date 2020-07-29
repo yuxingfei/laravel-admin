@@ -9,16 +9,45 @@
 use Illuminate\Http\Exceptions\HttpResponseException;
 use App\Model\Admin\AdminMenu;
 
-/** 不做任何操作 */
+/**
+ * 不做任何操作
+ */
 const URL_CURRENT = 'url://current';
-/** 刷新页面 */
+
+/**
+ * 刷新页面
+ */
 const URL_RELOAD = 'url://reload';
-/** 返回上一个页面 */
+
+/**
+ * 返回上一个页面
+ */
 const URL_BACK = 'url://back';
-/** 关闭当前layer弹窗 */
+
+/**
+ * 关闭当前layer弹窗
+ */
 const URL_CLOSE_LAYER = 'url://close-layer';
-/** 关闭当前弹窗并刷新父级 */
+
+/**
+ * 关闭当前弹窗并刷新父级
+ */
 const URL_CLOSE_REFRESH = 'url://close-refresh';
+
+/**
+ * 登录用户key
+ */
+const LOGIN_USER = 'loginUser';
+
+/**
+ * 登录用户id
+ */
+const LOGIN_USER_ID = 'LoginUserId';
+
+/**
+ * 登录用户签名
+ */
+const LOGIN_USER_ID_SIGN = 'loginUserIdSign';
 
 if (!function_exists('debugArr')) {
     /**
@@ -105,7 +134,9 @@ if (!function_exists('result')) {
     function result($code = 0, $msg = 'unknown', $data = '', $url = null, $wait = 3, array $header = [])
     {
         if (request()->isMethod('post')) {
+
             $url      = (strpos($url, '://') || 0 === strpos($url, '/')) ? $url : route($url);
+
             $result   = [
                 'code' => $code,
                 'msg'  => $msg,
@@ -113,18 +144,17 @@ if (!function_exists('result')) {
                 'url'  => $url,
                 'wait' => $wait,
             ];
+
             throw new HttpResponseException(response()->json($result)->withHeaders($header));
         }
 
         if ($url === null) {
-            $url = request()->server('HTTP_REFERER') ?? 'admin/index/index';
+            $url = request()->server('HTTP_REFERER') ?? 'admin.index.index';
         }
 
-        if(empty($data)){
-            throw new HttpResponseException(redirect($url)->with([$code ? 'success_message' : 'error_message' => $msg, 'url' => url($url)]));
-        }else{
-            throw new HttpResponseException(redirect()->route($url,$data)->with([$code ? 'success_message' : 'error_message' => $msg, 'url' => route($url)]));
-        }
+        $data = empty($data) ? [] : $data;
+
+        throw new HttpResponseException(redirect()->route($url,$data)->with([$code ? 'success_message' : 'error_message' => $msg, 'url' => route($url)]));
 
     }
 }
@@ -206,7 +236,7 @@ if (!function_exists('create_setting_file')) {
         if ($data->auto_create_file == 1) {
             $file = $data->code . '.php';
             if ($data->module !== 'app') {
-                $file = ucfirst($data->module) . '/' . $data->code . '.php';
+                $file = strtolower($data->module) . '/' . $data->code . '.php';
             }
 
             $setting   = $data->setting;

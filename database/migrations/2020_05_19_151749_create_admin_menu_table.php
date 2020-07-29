@@ -22,6 +22,7 @@ class CreateAdminMenuTable extends Migration
             $table->unsignedInteger('parent_id')->default('0')->comment('父级菜单');
             $table->string('name', 30)->collation('utf8mb4_unicode_ci')->default('')->comment('名称');
             $table->string('url', 100)->collation('utf8mb4_unicode_ci')->default('')->comment('url');
+            $table->string('route_name', 100)->collation('utf8mb4_unicode_ci')->default('')->comment('路由名或者路由标识');
             $table->string('icon', 30)->collation('utf8mb4_unicode_ci')->default('fa-list')->comment('图标');
             $table->tinyInteger('is_show')->default('1')->comment('等级');
             $table->unsignedInteger('sort_id')->default('1000')->comment('排序');

@@ -17,7 +17,7 @@
                     </tr>
                     <tr>
                         <td class="text-bold">操作用户</td>
-                        <td>{{isset($data['adminUser']['nickname']) ? $data['adminUser']['nickname'] : ''}}</td>
+                        <td>{{isset($data['adminUser']['nickname']) ? $data['adminUser']['nickname'] : '已删除'}}</td>
                     </tr>
                     <tr>
                         <td class="text-bold">操作</td>

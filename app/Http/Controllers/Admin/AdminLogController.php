@@ -1,58 +1,64 @@
 <?php
 /**
- * 后台操作日志控制器
+ * 操作日志 控制器
  *
- * @author yuxingfei<474949931@qq.com>
+ * User: Stephen <474949931@qq.com>
+ * Date: 2020/6/17
+ * Time: 15:19
  */
 
 namespace App\Http\Controllers\Admin;
 
-use App\Model\Admin\AdminLog;
-use App\Model\Admin\AdminUser;
-use Illuminate\Http\Request;
+use App\Services\AdminLogService;
 
-class AdminLogController extends AdminBaseController
+class AdminLogController extends BaseController
 {
     /**
-     * 首页
+     * 操作日志服务
      *
-     * @param Request $request
-     * @param AdminLog $model
-     * @param AdminUser $adminUser
-     * @return \Illuminate\Contracts\Foundation\Application|mixed
-     * @throws \Illuminate\Contracts\Container\BindingResolutionException
-     * Author: Stephen
-     * Date: 2020/5/18 16:07
+     * @var AdminLogService
      */
-    public function index(Request $request, AdminLog $model,AdminUser $adminUser)
+    protected $adminLogService;
+
+    /**
+     * AdminLogController 构造函数.
+     *
+     * @param AdminLogService $adminLogService
+     * @throws \Illuminate\Contracts\Container\BindingResolutionException
+     */
+    public function __construct(AdminLogService $adminLogService)
     {
-        $param = $request->input();
+        parent::__construct();
 
-        $data  = $model->addWhere($param)->paginate($this->admin['per_page']);
-
-        //关键词，排序等赋值
-        return $this->admin_view('admin.admin_log.index',array_merge([
-            'data'            => $data,
-            'admin_user_list' => $adminUser->all(),
-        ],$request->query()));
-
+        $this->adminLogService = $adminLogService;
     }
 
     /**
-     * 日志详情
+     * 操作日志首页
      *
-     * @param Request $request
-     * @param AdminLog $model
-     * @return \Illuminate\Contracts\Foundation\Application|mixed
-     * @throws \Illuminate\Contracts\Container\BindingResolutionException
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      * Author: Stephen
-     * Date: 2020/5/18 16:08
+     * Date: 2020/7/24 15:06:58
      */
-    public function view(Request $request, AdminLog $model)
+    public function index()
     {
-        $id = $request->input('id');
-        $data = $model::find($id);
-        return $this->admin_view('admin.admin_log.view',['data' => $data]);
+        $data = $this->adminLogService->getPageData();
+
+        return view('admin.admin_log.index',$data);
+    }
+
+    /**
+     * 日志查看
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * Author: Stephen
+     * Date: 2020/7/24 15:07:14
+     */
+    public function view()
+    {
+        $data = $this->adminLogService->getItemAdminLog();
+
+        return view('admin.admin_log.view',['data' => $data]);
     }
 
 }

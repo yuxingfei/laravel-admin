@@ -13,6 +13,6 @@ class VerifyCsrfToken extends Middleware
      */
     protected $except = [
         //UEditor上传图片不用csrf
-        'admin/editor/server',
+        'admin.editor.server',
     ];
 }

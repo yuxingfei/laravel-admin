@@ -10,7 +10,7 @@
         <div class="col-md-12">
             <div class="box">
                 <div class="box-body">
-                    <form class="form-inline searchForm" id="searchForm" action="{{url('admin/setting/index')}}" method="GET">
+                    <form class="form-inline searchForm" id="searchForm" action="{{url('admin/setting/all')}}" method="GET">
 
                         <div class="form-group">
                             <input value="{{isset($_keywords) ? $_keywords : ''}}"

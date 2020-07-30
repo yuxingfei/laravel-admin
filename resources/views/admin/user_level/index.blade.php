@@ -10,7 +10,7 @@
         <div class="col-md-12">
             <div class="box">
                 <div class="box-body">
-                    <form class="form-inline searchForm" id="searchForm" action="{{url('admin/user_level/index')}}" method="GET">
+                    <form class="form-inline searchForm" id="searchForm" action="{{route('admin.user_level.index')}}" method="GET">
 
                         <div class="form-group">
                             <input value="{{isset($_keywords) ? $_keywords : ''}}"
@@ -23,7 +23,7 @@
                             </button>
                         </div>
                         <div class="form-group">
-                            <button onclick="exportData()" class="btn btn-sm btn-warning exportData" type="button"><i
+                            <button onclick="exportData('{{route('admin.user_level.export')}}')" class="btn btn-sm btn-warning exportData" type="button"><i
                                     class="fa fa-search"></i> 导出
                             </button>
                         </div>
@@ -45,23 +45,23 @@
                 <!--数据列表顶部-->
                 <div class="box-header">
                     <div>
-                        <a title="添加" data-toggle="tooltip" class="btn btn-primary btn-sm " href="{{url('admin/user_level/add')}}">
+                        <a title="添加" data-toggle="tooltip" class="btn btn-primary btn-sm " href="{{route('admin.user_level.add')}}">
                             <i class="fa fa-plus"></i> 添加
                         </a>
                         <a class="btn btn-danger btn-sm AjaxButton" data-toggle="tooltip" title="删除选中数据"
                            data-confirm-title="删除确认" data-confirm-content="您确定要删除选中的数据吗？" data-id="checked"
-                           data-url="{{url('admin/user_level/del')}}">
+                           data-url="{{route('admin.user_level.del')}}">
                             <i class="fa fa-trash"></i> 删除
                         </a>
                         <a class="btn btn-success btn-sm AjaxButton" data-toggle="tooltip" title="启用选中数据"
                            data-confirm-title="启用确认" data-confirm-content="您确定要启用选中的数据吗？" data-id="checked"
-                           data-url="{{url('admin/user_level/enable')}}">
+                           data-url="{{route('admin.user_level.enable')}}">
                             <i class="fa fa-circle"></i> 启用
                         </a>
 
                         <a class="btn btn-warning btn-sm AjaxButton" data-toggle="tooltip" title="禁用选中数据"
                            data-confirm-title="禁用确认" data-confirm-content="您确定要禁用选中的数据吗？" data-id="checked"
-                           data-url="{{url('admin/user_level/disable')}}">
+                           data-url="{{route('admin.user_level.disable')}}">
                             <i class="fa fa-circle"></i> 禁用
                         </a>
 
@@ -105,28 +105,28 @@
                             <td>{{$item['create_time']}}</td>
 
                             <td class="td-do">
-                                <a href="{{url('admin/user_level/edit',['id'=>$item['id']])}}"
+                                <a href="{{route('admin.user_level.edit',['id'=>$item['id']])}}"
                                    class="btn btn-primary btn-xs" title="修改" data-toggle="tooltip">
                                     <i class="fa fa-pencil"></i>
                                 </a>
                                 <a class="btn btn-danger btn-xs AjaxButton" data-toggle="tooltip" title="删除"
                                    data-id="{{$item['id']}}" data-confirm-title="删除确认"
                                    data-confirm-content='您确定要删除ID为 <span class="text-red">{{$item['id']}}</span> 的数据吗'
-                                   data-url="{{url('admin/user_level/del')}}">
+                                   data-url="{{route('admin.user_level.del')}}">
                                     <i class="fa fa-trash"></i>
                                 </a>
                                 @if($item['status'] == 1)
                                 <a class="btn btn-warning btn-xs AjaxButton" data-toggle="tooltip" title="禁用"
                                    data-id="{{$item['id']}}" data-confirm-title="禁用确认"
                                    data-confirm-content='您确定要禁用ID为 <span class="text-red">{{$item['id']}}</span> 的数据吗'
-                                   data-url="{{url('admin/user_level/disable')}}">
+                                   data-url="{{route('admin.user_level.disable')}}">
                                     <i class="fa fa-circle"></i>
                                 </a>
                                 @else
                                 <a class="btn btn-success btn-xs AjaxButton" data-toggle="tooltip" title="启用"
                                    data-id="{{$item['id']}}" data-confirm-title="启用确认"
                                    data-confirm-content='您确定要启用ID为 <span class="text-red">{{$item['id']}}</span> 的数据吗'
-                                   data-url="{{url('admin/user_level/enable')}}">
+                                   data-url="{{route('admin.user_level.enable')}}">
                                     <i class="fa fa-circle"></i>
                                 </a>
                                 @endif

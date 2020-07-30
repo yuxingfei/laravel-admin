@@ -8,16 +8,16 @@
             <div class="box">
                 <div class="box-header">
                     <div>
-                        <a title="添加" data-toggle="tooltip" class="btn btn-primary btn-sm " href="{{url('admin/admin_menu/add')}}">
+                        <a title="添加" data-toggle="tooltip" class="btn btn-primary btn-sm " href="{{route('admin.admin_menu.add')}}">
                             <i class="fa fa-plus"></i> 添加
                         </a>
                         <a class="btn btn-danger btn-sm AjaxButton" data-toggle="tooltip" title="删除选中数据"
                            data-confirm-title="删除确认" data-confirm-content="您确定要删除选中的数据吗？" data-id="checked"
-                           data-url="{{url('admin/admin_menu/del')}}">
+                           data-url="{{route('admin.admin_menu.del')}}">
                             <i class="fa fa-trash"></i> 删除
                         </a>
                         <a class="btn btn-success btn-sm ReloadButton" data-toggle="tooltip" title="刷新"
-                           data-id="checked" data-url="{{url('admin/admin_menu/del')}}">
+                           data-id="checked" data-url="{{route('admin.admin_menu.del')}}">
                             <i class="fa fa-refresh"></i> 刷新
                         </a>
                     </div>
@@ -33,6 +33,7 @@
                             <th>ID</th>
                             <th>菜单名称</th>
                             <th>url</th>
+                            <th>路由名</th>
                             <th>父级ID</th>
                             <th>图标</th>
                             <th>排序</th>

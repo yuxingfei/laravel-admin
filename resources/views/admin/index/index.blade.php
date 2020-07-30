@@ -8,7 +8,7 @@
     <div class="row">
         <div class="pad margin no-print">
             <div class="callout callout-info">
-                <h4><i class="fa fa-info"></i> 您好,{{isset($user['nickname']) ? $user['nickname'] : '管理员'}}:</h4>
+                <h4><i class="fa fa-info"></i> 您好,{{isset($loginUser['nickname']) ? $loginUser['nickname'] : '管理员'}}:</h4>
                 {{isset($notice_content) ? $notice_content : ''}}
             </div>
         </div>
@@ -228,7 +228,7 @@
         if (parseInt(passwordDanger) === 1) {
             layer.confirm('系统检测到该账户为初始密码，马上去修改？', {title: '风险提示', closeBtn: 1, icon: 7}, function () {
                 $.pjax({
-                    url: '/admin/admin_user/profile#privacy',
+                    url: '{{route("admin.admin_user.profile")}}#privacy',
                     container: '#pjax-container'
                 });
                 layer.closeAll();

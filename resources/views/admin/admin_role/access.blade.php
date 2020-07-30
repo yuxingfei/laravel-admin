@@ -24,8 +24,9 @@
                     </label>
                 </div>
                 <div class="box-body" id="all_check">
-                    <form id="dataForm" class="form-horizontal dataForm" action="" method="post"
+                    <form id="dataForm" class="form-horizontal dataForm" action="{{route('admin.admin_role.access_operate')}}" method="post"
                           enctype="multipart/form-data">
+                        <input type="hidden" name="id" value="{{$data['id']}}">
                         <div class="box-body">
                             <div class="table_full">
                                 <table width="100%" cellspacing="0">

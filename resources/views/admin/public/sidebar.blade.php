@@ -4,7 +4,7 @@
     <section class="sidebar">
         <div class="user-panel">
             <div class="pull-left image">
-                <img src="{{isset($admin['user']['avatar']) ? $admin['user']['avatar'] : asset('/static/admin/images/avatar.png')}}" class="img-circle" alt="用户头像">
+                <img src="{{isset($admin['user']['avatar']) ? $admin['user']['avatar'] : asset('/static/admin/images/avatar.png')}}" onerror="javascript:this.src='{{asset('/static/admin/images/avatar.png')}}';this.onerror = null" class="img-circle" alt="用户头像">
             </div>
             <div class="pull-left info">
                 <p>{{isset($admin['user']['nickname']) ? $admin['user']['nickname'] : ''}}</p>

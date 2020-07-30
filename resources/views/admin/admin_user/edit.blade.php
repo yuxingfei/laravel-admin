@@ -15,51 +15,56 @@
                         </a>
                     </div>
                 </div>
-                <!-- 表单 -->
-                <form id="dataForm" class="form-horizontal dataForm" action="{{route('admin.user_level.create')}}" method="post"
+                <form id="dataForm" class="form-horizontal dataForm" action="{{route('admin.admin_user.update')}}" method="post"
                       enctype="multipart/form-data">
-                    <!-- 表单字段区域 -->
+                    <input type="hidden" name="id" value="{{$data['id']}}">
                     <div class="box-body">
                         <div class="form-group">
-                            <label for="name" class="col-sm-2 control-label">名称</label>
+                            <label for="role" class="col-sm-2 control-label">角色</label>
                             <div class="col-sm-10 col-md-4">
-                                <input id="name" name="name" value="{{isset($data['name']) ? $data['name'] : ''}}" placeholder="请输入名称"
-                                       type="text" class="form-control field-text">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="description" class="col-sm-2 control-label">简介</label>
-                            <div class="col-sm-10 col-md-4">
-                                <input id="description" name="description" value="{{isset($data['description']) ? $data['description'] : ''}}"
-                                       placeholder="请输入简介" type="text" class="form-control field-text">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="img" class="col-sm-2 control-label">图片</label>
-                            <div class="col-sm-10 col-md-4">
-                                <input id="img" name="img" placeholder="请上传图片" @if(isset($data['img']))data-initial-preview="{{$data['img']}}" @endif type="file"
-                                class="form-control field-image" >
+                                <select name="role[]" id="role" class="form-control field-multi-select"
+                                        multiple="multiple">
+                                    @foreach($role as $item)
+                                    <option value="{{$item['id']}}" @if(isset($data) && in_array($item['id'],$data['role'])) selected @endif>
+                                        {{$item['name']}}
+                                    </option>
+                                    @endforeach
+                                </select>
+
                             </div>
                         </div>
                         <script>
-                            $('#img').fileinput({
-                                language: 'zh',
-                                overwriteInitial: true,
-                                browseLabel: '浏览',
-                                initialPreviewAsData: true,
-                                dropZoneEnabled: false,
-                                showUpload: false,
-                                showRemove: false,
-                                allowedFileTypes: ['image'],
-                                maxFileSize: 10240,
-                            });
+                            $('#role').select2();
                         </script>
+
                         <div class="form-group">
-                            <label for="status" class="col-sm-2 control-label">是否启用</label>
+                            <label for="nickname" class="col-sm-2 control-label">昵称</label>
                             <div class="col-sm-10 col-md-4">
-                                <input class="input-switch" id="status" value="1" @if(!isset($data) || $data['status'] == 1)checked @endif type="checkbox"/>
-                                <input class="switch field-switch" placeholder="是否启用" name="status"
-                                       value="{{isset($data['status']) ? $data['status'] : '1'}}" hidden/>
+                                <input maxlength="50" class="form-control" id="nickname" placeholder="请输入昵称" name="nickname" value="{{isset($data['nickname']) ? $data['nickname'] : ''}}">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="username" class="col-sm-2 control-label">账号</label>
+                            <div class="col-sm-10 col-md-4">
+                                <input maxlength="50" id="username" autocomplete="off" name="username"
+                                       value="{{isset($data['username']) ? $data['username'] : ''}}" class="form-control" placeholder="请输入账号">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="password" class="col-sm-2 control-label">密码</label>
+                            <div class="col-sm-10 col-md-4">
+                                <input maxlength="255" id="password" autocomplete="off" type="password" name="password"
+                                       value="{{isset($data['password']) ? $data['password'] : ''}}" class="form-control" placeholder="请输入密码">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="status" class="col-sm-2 control-label">启用状态</label>
+                            <div class="col-sm-10 col-md-4">
+                                <input class="input-switch" id="status" value="1" @if(!isset($data) || $data['status'] == '1') checked @endif type="checkbox"/>
+                                <input class="switch field-switch" name="status" value="{{isset($data['status']) ? $data['status'] : '1'}}" hidden/>
                             </div>
                         </div>
 
@@ -75,7 +80,8 @@
                             });
                         </script>
                     </div>
-                    <!-- 表单底部 -->
+
+                    <!--表单底部-->
                     <div class="box-footer">
                         @csrf
                         <div class="col-sm-2">
@@ -100,38 +106,47 @@
                             </div>
                         </div>
                     </div>
+
                 </form>
             </div>
         </div>
     </div>
-</section>
-<script>
-    /** 表单验证 **/
-    $('#dataForm').validate({
-        rules: {
-            'name': {
-                required: true,
-            },
-            'description': {
-                required: true,
-            },
-            'status': {
-                required: true,
-            },
 
+</section>
+
+<script>
+    $("#dataForm").validate({
+        rules: {
+            nickname: {
+                required: true,
+                minlength: 2
+            },
+            username: {
+                required: true,
+                minlength: 2
+            },
+            password: {
+                required: true,
+                minlength: 6
+            },
         },
         messages: {
-            'name': {
-                required: "名称不能为空",
+            nickname: {
+                required: "请输入昵称",
+                minlength: "名称长度不能小于2"
             },
-            'description': {
-                required: "简介不能为空",
+            username: {
+                required: "请输入账号",
+                minlength: "用户名长度不能小于2"
             },
-            'status': {
-                required: "是否启用不能为空",
+            password: {
+                required: "请输入密码",
+                minlength: "密码长度不能小于6"
             },
+        },
 
-        }
     });
 </script>
+
 @endsection
+

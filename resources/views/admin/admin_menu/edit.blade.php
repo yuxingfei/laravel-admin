@@ -17,8 +17,9 @@
                     </div>
                 </div>
 
-                <form id="dataForm" class="dataForm form-horizontal" action="{{route('admin.admin_menu.create')}}" method="post"
+                <form id="dataForm" class="dataForm form-horizontal" action="{{route('admin.admin_menu.update')}}" method="post"
                       enctype="multipart/form-data">
+                    <input type="hidden" name="id" value="{{$data['id']}}">
                     <div class="box-body">
                         <div class="fields-group">
                             <div class="form-group">
@@ -33,7 +34,6 @@
                             <script>
                                 $('#parent_id').select2();
                             </script>
-
                             <div class="form-group">
                                 <label for="name" class="col-sm-2 control-label">名称</label>
                                 <div class="col-sm-10 col-md-4">
@@ -41,7 +41,6 @@
                                            class="form-control" placeholder="请输入菜单名称">
                                 </div>
                             </div>
-
                             <div class="form-group">
                                 <label for="url" class="col-sm-2 control-label">url</label>
                                 <div class="col-sm-10 col-md-4">

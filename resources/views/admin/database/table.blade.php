@@ -11,7 +11,7 @@
                 <div class="box-header">
                     <div>
                         <a class="btn btn-success btn-sm ReloadButton" data-toggle="tooltip" title="刷新"
-                           data-id="checked" data-url="{{url('admin/database/del')}}">
+                           data-id="checked">
                             <i class="fa fa-refresh"></i> 刷新
                         </a>
                     </div>

@@ -15,11 +15,9 @@
                         </a>
                     </div>
                 </div>
-                <form id="dataForm" class="form-horizontal dataForm" action="" method="post"
+                <form id="dataForm" class="form-horizontal dataForm" action="{{route('admin.admin_user.create')}}" method="post"
                       enctype="multipart/form-data">
                     <div class="box-body">
-
-
                         <div class="form-group">
                             <label for="role" class="col-sm-2 control-label">角色</label>
                             <div class="col-sm-10 col-md-4">

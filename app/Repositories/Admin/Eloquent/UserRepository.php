@@ -94,7 +94,7 @@ class UserRepository implements UserInterface
         $data->nickname      = $param['nickname'];
         $data->password      = $param['password'];
         $data->status        = $param['status'];
-        $data->description   = isset($param['description']) ? $param['description'] : null;
+        $data->description   = isset($param['description']) ? $param['description'] : '';
 
         return $data->save();
     }

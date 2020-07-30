@@ -8,7 +8,7 @@
  */
 namespace App\Services;
 
-use App\Model\Common\Attachment;
+use App\Http\Model\Common\Attachment;
 use App\Repositories\Admin\Contracts\UserInterface;
 use App\Repositories\Admin\Contracts\UserLevelInterface;
 use App\Traits\Admin\PhpOffice;

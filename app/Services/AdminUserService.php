@@ -8,7 +8,7 @@
  */
 namespace App\Services;
 
-use App\Model\Common\Attachment;
+use App\Http\Model\Common\Attachment;
 use App\Repositories\Admin\Contracts\AdminRoleInterface;
 use App\Repositories\Admin\Contracts\AdminUserInterface;
 use App\Validate\Admin\AdminUserValidate;

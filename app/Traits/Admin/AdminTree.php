@@ -7,8 +7,7 @@
 
 namespace App\Traits\Admin;
 
-use App\Model\Admin\AdminUser;
-use http\Client\Request;
+use App\Http\Model\Admin\AdminUser;
 use Illuminate\Database\Eloquent\Model;
 
 trait AdminTree

@@ -7,7 +7,7 @@
  */
 
 use Illuminate\Http\Exceptions\HttpResponseException;
-use App\Model\Admin\AdminMenu;
+use App\Http\Model\Admin\AdminMenu;
 
 /**
  * 不做任何操作

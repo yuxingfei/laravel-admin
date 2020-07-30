@@ -5,7 +5,7 @@
  * @author yuxingfei<474949931@qq.com>
  */
 
-namespace App\Model\Common;
+namespace App\Http\Model\Common;
 
 use Illuminate\Database\Eloquent\Model;
 

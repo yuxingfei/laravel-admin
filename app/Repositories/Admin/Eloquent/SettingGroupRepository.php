@@ -9,8 +9,7 @@
 
 namespace App\Repositories\Admin\Eloquent;
 
-
-use App\Model\Common\SettingGroup;
+use App\Http\Model\Common\SettingGroup;
 use App\Repositories\Admin\Contracts\SettingGroupInterface;
 
 class SettingGroupRepository implements SettingGroupInterface

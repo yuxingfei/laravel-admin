@@ -9,8 +9,7 @@
 
 namespace App\Repositories\Admin\Eloquent;
 
-
-use App\Model\Admin\AdminMenu;
+use App\Http\Model\Admin\AdminMenu;
 use App\Repositories\Admin\Contracts\AdminMenuInterface;
 
 class AdminMenuRepository implements AdminMenuInterface

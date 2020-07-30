@@ -10,10 +10,10 @@
 namespace App\Services;
 
 use App\Libs\SystemInfo;
-use App\Model\Admin\AdminLog;
-use App\Model\Admin\AdminMenu;
-use App\Model\Admin\AdminRole;
-use App\Model\Admin\AdminUser;
+use App\Http\Model\Admin\AdminLog;
+use App\Http\Model\Admin\AdminMenu;
+use App\Http\Model\Admin\AdminRole;
+use App\Http\Model\Admin\AdminUser;
 use Illuminate\Http\Request;
 
 class IndexService

@@ -9,8 +9,7 @@
 
 namespace App\Repositories\Admin\Eloquent;
 
-
-use App\Model\Admin\AdminLog;
+use App\Http\Model\Admin\AdminLog;
 use App\Repositories\Admin\Contracts\AdminLogInterface;
 
 class AdminLogRepository implements AdminLogInterface

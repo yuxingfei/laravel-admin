@@ -9,7 +9,7 @@
 
 namespace App\Repositories\Admin\Contracts;
 
-use App\Model\Admin\AdminUser;
+use App\Http\Model\Admin\AdminUser;
 
 interface AdminUserInterface
 {

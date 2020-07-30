@@ -9,7 +9,7 @@
 
 namespace App\Services;
 
-use App\Model\Common\Attachment;
+use App\Http\Model\Common\Attachment;
 use App\Repositories\Admin\Contracts\SettingGroupInterface;
 use App\Repositories\Admin\Contracts\SettingInterface;
 use App\Traits\Admin\PhpOffice;

@@ -9,9 +9,8 @@
 
 namespace App\Repositories\Admin\Eloquent;
 
-
-use App\Model\Common\Attachment;
-use App\Model\Common\UserLevel;
+use App\Http\Model\Common\Attachment;
+use App\Http\Model\Common\UserLevel;
 use App\Repositories\Admin\Contracts\UserLevelInterface;
 
 class UserLevelRepository implements UserLevelInterface

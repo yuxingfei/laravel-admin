@@ -7,6 +7,7 @@
         <title>Laravel</title>
 
         <!-- Fonts -->
+        <link href="/static/css/fonts.googleapis.com.css" rel="stylesheet">
 
         <!-- Styles -->
         <style>
@@ -67,12 +68,12 @@
             @if (Route::has('login'))
                 <div class="top-right links">
                     @auth
-                        <a href="{{ url('admin/home') }}">Home</a>
+                        <a href="{{ url('/home') }}">Home</a>
                     @else
-                        <a href="{{ url('admin/login') }}">Login</a>
+                        <a href="{{ route('login') }}">Login</a>
 
                         @if (Route::has('register'))
-                            <a href="{{ url('admin/register') }}">Register</a>
+                            <a href="{{ route('register') }}">Register</a>
                         @endif
                     @endauth
                 </div>

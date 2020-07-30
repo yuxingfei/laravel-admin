@@ -33,9 +33,9 @@
     //是否为debug模式
     var adminDebug = {{$debug}};
     //cookie前缀
-    var cookiePrefix = '{{$cookie_prefix}}';
+    var cookiePrefix = '{{$cookiePrefix}}';
     //UEditor server地址
-    var UEServer = "{{url('admin/editor/server')}}";
+    var UEServer = "{{route('admin.editor.server')}}";
     //列表页当前选择的ID
     var dataSelectIds = [];
 </script>

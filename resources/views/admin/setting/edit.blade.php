@@ -16,8 +16,9 @@
                     </div>
                 </div>
                 <!-- 表单 -->
-                <form id="dataForm" class="form-horizontal dataForm" action="{{route('admin.setting.create')}}" method="post"
+                <form id="dataForm" class="form-horizontal dataForm" action="{{route('admin.setting.do_update')}}" method="post"
                       enctype="multipart/form-data">
+                    <input type="hidden" name="id" value="{{$data['id']}}">
                     <!-- 表单字段区域 -->
                     <div class="box-body">
                         <div class="form-group">

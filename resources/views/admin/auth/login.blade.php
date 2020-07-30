@@ -12,11 +12,11 @@
     <link rel="stylesheet" href="{{asset(__ADMIN_CSS__.'/admin.css')}}">
 
     <!-- 如果有登录背景 -->
-    @if ($login_config['background'])
+    @if ($loginConfig['background'])
     <style>
         .login-page{
             background-color: #ececec;
-            background-image: url({{$login_config['background']}});
+            background-image: url({{isset($loginConfig['background']) ? $loginConfig['background'] : asset('/static/admin/images/default-background.jpg')}});
             background-repeat: no-repeat;
             background-size: cover;
             background-attachment: fixed;
@@ -37,8 +37,8 @@
     <script type="text/javascript" src="{{asset(__ADMIN_JS__.'/admin.js')}}"></script>
 
     <!--[if lt IE 9]>
-    <script type="text/javascript" src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-    <script type="text/javascript" src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <script type="text/javascript" src="{{asset(__ADMIN_JS__.'/html5shiv.min.js')}}"></script>
+    <script type="text/javascript" src="{{asset(__ADMIN_JS__.'/respond.min.js')}}"></script>
     <![endif]-->
 
 </head>
@@ -49,7 +49,7 @@
     </div>
     <div class="login-box-body">
         <p class="login-box-msg">登录</p>
-        <form class="dataForm" id="dataForm" action="" method="post">
+        <form class="dataForm" id="dataForm" action="{{route('admin.auth.check_login')}}" method="post">
             <div class="form-group has-feedback">
                 <input name="username" id="username" autocomplete="off" type="text" class="form-control" placeholder="用户名">
                 <span class="glyphicon glyphicon-user form-control-feedback"></span>
@@ -59,10 +59,10 @@
                 <span class="glyphicon glyphicon-lock form-control-feedback"></span>
             </div>
 
-            @if($login_config['captcha']==1)
+            @if($loginConfig['captcha']==1)
                 @include('admin.auth.captcha')
             @else
-                @if($login_config['captcha']==2)
+                @if($loginConfig['captcha']==2)
                     @include('admin.auth.gee_test')
                 @endif
             @endif

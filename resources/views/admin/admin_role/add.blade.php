@@ -17,7 +17,7 @@
                     </div>
                 </div>
 
-                <form id="dataForm" class="form-horizontal dataForm" action="" method="post"
+                <form id="dataForm" class="form-horizontal dataForm" action="{{route('admin.admin_role.create')}}" method="post"
                       enctype="multipart/form-data">
                     <div class="box-body">
                         <div class="form-group">

@@ -10,7 +10,7 @@
         <div class="col-md-12">
             <div class="box">
                 <div class="box-body">
-                    <form class="form-inline searchForm" id="searchForm" action="{{url('admin/setting_group/index')}}" method="GET">
+                    <form class="form-inline searchForm" id="searchForm" action="{{route('admin.setting_group.index')}}" method="GET">
 
                         <div class="form-group">
                             <input value="{{isset($_keywords) ? $_keywords : ''}}"
@@ -41,12 +41,12 @@
                 <!--数据列表顶部-->
                 <div class="box-header">
                     <div>
-                        <a title="添加" data-toggle="tooltip" class="btn btn-primary btn-sm " href="{{url('admin/setting_group/add')}}">
+                        <a title="添加" data-toggle="tooltip" class="btn btn-primary btn-sm " href="{{route('admin.setting_group.add')}}">
                             <i class="fa fa-plus"></i> 添加
                         </a>
                         <a class="btn btn-danger btn-sm AjaxButton" data-toggle="tooltip" title="删除选中数据"
                            data-confirm-title="删除确认" data-confirm-content="您确定要删除选中的数据吗？" data-id="checked"
-                           data-url="{{url('admin/setting_group/del')}}">
+                           data-url="{{route('admin.setting_group.del')}}">
                             <i class="fa fa-trash"></i> 删除
                         </a>
 
@@ -97,7 +97,7 @@
                             <td>{{$item['create_time']}}</td>
                             <td>{{$item['update_time']}}</td>
                             <td class="td-do">
-                                <a href="{{url('admin/setting_group/edit',['id'=>$item['id']])}}"
+                                <a href="{{route('admin.setting_group.edit',['id'=>$item['id']])}}"
                                    class="btn btn-primary btn-xs" title="修改" data-toggle="tooltip">
                                     <i class="fa fa-pencil"></i>
                                 </a>
@@ -105,21 +105,21 @@
                                 <a class="btn btn-success btn-xs AjaxButton" data-toggle="tooltip" title="生成配置文件"
                                    data-id="{{$item['id']}}" data-confirm-title="生成配置文件确认"
                                    data-confirm-content='您确定要生成ID为 <span class="text-red">{{$item['id']}}</span> 的配置文件吗'
-                                   data-url="{{url('admin/setting_group/file')}}">
+                                   data-url="{{route('admin.setting_group.file')}}">
                                     <i class="fa fa-file-code-o"></i>
                                 </a>
 
                                 <a class="btn btn-warning btn-xs AjaxButton" data-toggle="tooltip" title="生成菜单"
                                    data-id="{{$item['id']}}" data-confirm-title="生成菜单确认"
                                    data-confirm-content='您确定要生成ID为 <span class="text-red">{{$item['id']}}</span> 的菜单吗'
-                                   data-url="{{url('admin/setting_group/menu')}}">
+                                   data-url="{{route('admin.setting_group.menu')}}">
                                     <i class="fa fa-list"></i>
                                 </a>
 
                                 <a class="btn btn-danger btn-xs AjaxButton" data-toggle="tooltip" title="删除"
                                    data-id="{{$item['id']}}" data-confirm-title="删除确认"
                                    data-confirm-content='您确定要删除ID为 <span class="text-red">{{$item['id']}}</span> 的数据吗'
-                                   data-url="{{url('admin/setting_group/del')}}">
+                                   data-url="{{route('admin.setting_group.del')}}">
                                     <i class="fa fa-trash"></i>
                                 </a>
 

@@ -23,12 +23,12 @@
 
                 <li class="dropdown user user-menu">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        <img src="{{isset($admin['user']['avatar']) ? $admin['user']['avatar'] : asset('/static/admin/images/avatar.png')}}" class="user-image" alt="用户头像">
+                        <img src="{{isset($admin['user']['avatar']) ? $admin['user']['avatar'] : asset('/static/admin/images/avatar.png')}}" onerror="javascript:this.src='{{asset('/static/admin/images/avatar.png')}}';this.onerror = null" class="user-image" alt="用户头像">
                         <span class="hidden-xs">{{isset($admin['user']['nickname']) ? $admin['user']['nickname'] : ''}}</span>
                     </a>
                     <ul class="dropdown-menu">
                         <li class="user-header">
-                            <img src="{{isset($admin['user']['avatar']) ? $admin['user']['avatar'] : asset('/static/admin/images/avatar.png')}}" class="img-circle" alt="用户头像">
+                            <img src="{{isset($admin['user']['avatar']) ? $admin['user']['avatar'] : asset('/static/admin/images/avatar.png')}}" onerror="javascript:this.src='{{asset('/static/admin/images/avatar.png')}}';this.onerror = null" class="img-circle" alt="用户头像">
                             <p>
                                 {{isset($admin['user']['nickname']) ? $admin['user']['nickname'] : ''}}
                                 <small>{{isset($admin['user']['username']) ? $admin['user']['username'] : ''}}</small>
@@ -36,10 +36,10 @@
                         </li>
                         <li class="user-footer">
                             <div class="pull-left">
-                                <a href="{{url('admin/admin_user/profile')}}" class="btn btn-default btn-flat">个人资料</a>
+                                <a href="{{route('admin.admin_user.profile')}}" class="btn btn-default btn-flat">个人资料</a>
                             </div>
                             <div class="pull-right">
-                                <a href="{{url('admin/auth/logout')}}" class="btn btn-default btn-flat">退出</a>
+                                <a href="{{route('admin.auth.logout')}}" class="btn btn-default btn-flat">退出</a>
                             </div>
                         </li>
                     </ul>

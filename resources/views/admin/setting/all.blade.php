@@ -10,7 +10,7 @@
         <div class="col-md-12">
             <div class="box">
                 <div class="box-body">
-                    <form class="form-inline searchForm" id="searchForm" action="{{url('admin/setting/all')}}" method="GET">
+                    <form class="form-inline searchForm" id="searchForm" action="{{route('admin.setting.all')}}" method="GET">
 
                         <div class="form-group">
                             <input value="{{isset($_keywords) ? $_keywords : ''}}"
@@ -77,7 +77,7 @@
                             <td>{{$item['create_time']}}</td>
                             <td>{{$item['update_time']}}</td>
                             <td class="td-do">
-                                <a href="{{url('admin/setting/info',['id' => $item['id']])}}"
+                                <a href="{{route('admin.setting.info',['id' => $item['id']])}}"
                                    class="btn btn-primary btn-xs" title="修改" data-toggle="tooltip">
                                     <i class="fa fa-pencil"></i>
                                 </a>

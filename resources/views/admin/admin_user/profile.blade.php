@@ -7,7 +7,7 @@
         <div class="col-md-3">
             <div class="box box-primary">
                 <div class="box-body box-profile">
-                    <img class="profile-user-img img-responsive img-circle" src="{{$admin['user']['avatar']}}" alt="头像">
+                    <img class="profile-user-img img-responsive img-circle" onerror="javascript:this.src='{{asset('/static/admin/images/avatar.png')}}';this.onerror = null" src="{{$admin['user']['avatar']}}" alt="头像">
                     <h3 class="profile-username text-center">{{$admin['user']['nickname']}}</h3>
                     <p class="text-muted text-center">{{$admin['user']['username']}}</p>
                     <p>
@@ -27,9 +27,7 @@
                 </ul>
                 <div class="tab-content">
                     <div class="tab-pane active" id="profile">
-                        <form class="dataForm form-horizontal" id="dataForm1" action="" method="post">
-                            <input type="hidden" value="profile" name="update_type" placeholder="请勿修改">
-
+                        <form class="dataForm form-horizontal" id="dataForm1" action="{{route('admin.admin_user.update_nickname')}}" method="post">
                             <div class="form-group">
                                 <label for="nickname" class="col-sm-2 control-label">昵称</label>
                                 <div class="col-sm-10 col-md-4">
@@ -48,8 +46,7 @@
                     </div>
 
                     <div class="tab-pane" id="privacy">
-                        <form class="dataForm form-horizontal" id="dataForm2" action="" method="post">
-                            <input type="hidden" value="password" name="update_type" placeholder="请勿修改">
+                        <form class="dataForm form-horizontal" id="dataForm2" action="{{route('admin.admin_user.update_password')}}" method="post">
                             <div class="form-group">
                                 <label for="password" class="col-sm-2 control-label">当前密码</label>
                                 <div class="col-sm-10 col-md-4">
@@ -80,8 +77,7 @@
                         </form>
                     </div>
                     <div class="tab-pane" id="avatars">
-                        <form class="dataForm form-horizontal" id="dataForm3" action="" method="post" enctype="multipart/form-data">
-                            <input type="hidden" value="avatar" name="update_type" placeholder="请勿淘气修改">
+                        <form class="dataForm form-horizontal" id="dataForm3" action="{{route('admin.admin_user.update_avatar')}}" method="post" enctype="multipart/form-data">
                             <div class="form-group">
                                 <label for="avatar" class="col-sm-2 control-label">头像</label>
                                 <div class="col-sm-10 col-md-4">

@@ -32,7 +32,7 @@
                     @foreach($data_config as $key => $item)
                     <div class="tab-pane @if(0 == $key)active @endif" id="tab_{{$key}}">
 
-                        <form class="form-horizontal dataForm" action="{{url('admin/setting/update')}}" method="post"
+                        <form class="form-horizontal dataForm" action="{{route('admin.setting.update')}}" method="post"
                               enctype="multipart/form-data">
                             <div class="box-body">
                                 <input name="id" value="{{$item['id']}}" hidden>

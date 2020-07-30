@@ -9,10 +9,9 @@
 
 namespace App\Repositories\Admin\Eloquent;
 
-
-use App\Model\Admin\AdminLog;
-use App\Model\Admin\AdminLogData;
-use App\Model\Admin\AdminUser;
+use App\Http\Model\Admin\AdminLog;
+use App\Http\Model\Admin\AdminLogData;
+use App\Http\Model\Admin\AdminUser;
 use App\Repositories\Admin\Contracts\AuthInterface;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Crypt;

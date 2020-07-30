@@ -9,8 +9,7 @@
 
 namespace App\Repositories\Admin\Eloquent;
 
-
-use App\Model\Common\Setting;
+use App\Http\Model\Common\Setting;
 use App\Repositories\Admin\Contracts\SettingInterface;
 
 class SettingRepository implements SettingInterface

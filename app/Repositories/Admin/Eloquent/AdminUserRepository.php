@@ -9,8 +9,8 @@
 
 namespace App\Repositories\Admin\Eloquent;
 
+use App\Http\Model\Admin\AdminUser;
 
-use App\Model\Admin\AdminUser;
 use App\Repositories\Admin\Contracts\AdminUserInterface;
 
 class AdminUserRepository implements AdminUserInterface

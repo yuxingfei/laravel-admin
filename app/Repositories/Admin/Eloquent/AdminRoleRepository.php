@@ -9,8 +9,8 @@
 
 namespace App\Repositories\Admin\Eloquent;
 
+use App\Http\Model\Admin\AdminRole;
 
-use App\Model\Admin\AdminRole;
 use App\Repositories\Admin\Contracts\AdminRoleInterface;
 
 class AdminRoleRepository implements AdminRoleInterface

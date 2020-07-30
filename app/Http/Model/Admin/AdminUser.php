@@ -5,7 +5,7 @@
  *
  * @author yuxingfei<474949931@qq.com>
  */
-namespace App\Model\Admin;
+namespace App\Http\Model\Admin;
 
 class AdminUser extends BaseModel
 {

@@ -9,7 +9,7 @@
 
 namespace App\Services;
 
-use App\Model\Common\SettingGroup;
+use App\Http\Model\Common\SettingGroup;
 use App\Repositories\Admin\Contracts\SettingGroupInterface;
 use App\Traits\Admin\PhpOffice;
 use App\Traits\Admin\SettingForm;

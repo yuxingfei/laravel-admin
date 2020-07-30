@@ -5,7 +5,7 @@
  * @author yuxingfei<474949931@qq.com>
  */
 
-namespace App\Model\Admin;
+namespace App\Http\Model\Admin;
 
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -88,7 +88,7 @@ class AdminLog extends BaseModel
      */
     public function adminUser(): BelongsTo
     {
-        return $this->belongsTo('App\Model\Admin\AdminUser');
+        return $this->belongsTo('App\Http\Model\Admin\AdminUser');
     }
 
     /**
@@ -100,7 +100,7 @@ class AdminLog extends BaseModel
      */
     public function adminLogData(): HasOne
     {
-        return $this->hasOne('App\Model\Admin\AdminLogData');
+        return $this->hasOne('App\Http\Model\Admin\AdminLogData');
     }
 
 }

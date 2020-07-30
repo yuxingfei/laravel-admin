@@ -9,9 +9,8 @@
 
 namespace App\Repositories\Admin\Eloquent;
 
-
-use App\Model\Common\Attachment;
-use App\Model\Common\User;
+use App\Http\Model\Common\Attachment;
+use App\Http\Model\Common\User;
 use App\Repositories\Admin\Contracts\UserInterface;
 
 class UserRepository implements UserInterface
@@ -95,8 +94,7 @@ class UserRepository implements UserInterface
         $data->nickname      = $param['nickname'];
         $data->password      = $param['password'];
         $data->status        = $param['status'];
-
-        if(isset($param['description']))  $data->description   = $param['description'];
+        $data->description   = isset($param['description']) ? $param['description'] : null;
 
         return $data->save();
     }

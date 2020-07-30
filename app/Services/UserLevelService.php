@@ -9,7 +9,7 @@
 
 namespace App\Services;
 
-use App\Model\Common\Attachment;
+use App\Http\Model\Common\Attachment;
 use App\Repositories\Admin\Contracts\UserLevelInterface;
 use App\Traits\Admin\PhpOffice;
 use App\Validate\Common\UserLevelValidate;

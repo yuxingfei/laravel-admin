@@ -37,7 +37,7 @@ php artisan db:seed
 php artisan storage:link
 
 如果是docker容器部署,则需要到nginx容器中,手动创建软连接：
-例如: ln -s /usr/share/nginx/html/temp/laravel-admin-temp/storage/app/public/ /usr/share/nginx/html/temp/laravel-admin-temp/public/storage
+例如: ln -s /usr/share/nginx/html/laravel-admin/storage/app/public/ /usr/share/nginx/html/laravel-admin/public/storage
 ``` 
 
 #### 最后一步，别忘了把项目设置为程序运行用户哟

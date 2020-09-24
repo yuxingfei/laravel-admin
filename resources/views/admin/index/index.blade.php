@@ -8,7 +8,7 @@
     <div class="row">
         <div class="pad margin no-print">
             <div class="callout callout-info">
-                <h4><i class="fa fa-info"></i> 您好,{{isset($loginUser['nickname']) ? $loginUser['nickname'] : '管理员'}}:</h4>
+                <h4><i class="fa fa-info"></i> 您好,{{isset($user['nickname']) ? $user['nickname'] : '管理员'}}:</h4>
                 {{isset($notice_content) ? $notice_content : ''}}
             </div>
         </div>

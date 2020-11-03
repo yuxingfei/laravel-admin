@@ -186,7 +186,7 @@ class Attachment extends Model
     }
 
     /**
-     * 删除
+     * 上传
      *
      * @param $name
      * @param string $path
@@ -227,7 +227,7 @@ class Attachment extends Model
     }
 
     /**
-     * 删除多个文件
+     * 上传多个文件
      *
      * @param $name
      * @param string $path

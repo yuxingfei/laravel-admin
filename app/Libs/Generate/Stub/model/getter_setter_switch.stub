@@ -1,5 +1,0 @@
-//[FORM_NAME]获取器
-public function get[FIELD_NAME]TextAttribute($value, $data)
-{
-    return $data['[FORM_NAME_LOWER]'] == 1 ? '是' : '否';
-}

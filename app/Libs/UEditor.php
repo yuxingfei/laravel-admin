@@ -222,7 +222,7 @@ class UEditor
      */
     private function getFiles($path, $allowFiles, &$files = array()): ?array
     {
-        $public_path = base_path().'/public/storage/';
+        $public_path = base_path().'/storage/app/public/';
 
         if (substr($path, strlen($path) - 1) !== '/') {
             $path .= '/';
@@ -306,7 +306,7 @@ class UEditor
         $img = ob_get_clean();
         preg_match("/[\/]([^\/]*)[\.]?[^\.\/]*$/", $imgUrl, $m);
 
-        $dirname          = base_path() . '/public/storage/uploads/ueditor/remote/';
+        $dirname          = base_path() . '/storage/app/public/uploads/ueditor/remote/';
         $file['oriName']  = $m ? $m[1] : '';
         $file['filesize'] = strlen($img);
         $file['ext']      = strtolower(strrchr($config['oriName'], '.'));
@@ -371,7 +371,7 @@ class UEditor
         $base64Data = $this->param[$fieldName];
         $img        = base64_decode($base64Data);
 
-        $dirname          = base_path() . '/public/storage/uploads/ueditor/scrawl/';;
+        $dirname          = base_path() . '/storage/app/public/uploads/ueditor/scrawl/';
         $file['filesize'] = strlen($img);
         $file['oriName']  = $config['oriName'];
         $file['ext']      = '.png';

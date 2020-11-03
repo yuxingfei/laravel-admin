@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="renderer" content="webkit">
-    <title>{{isset($admin['title']) ? $admin['title'] : ''}} | {{isset($admin['name']) ? $admin['name'] : 'OneWeekBackend'}}</title>
+    <title>{{isset($admin['title']) ? $admin['title'] : '登录'}} | {{isset($admin['name']) ? $admin['name'] : 'OneWeekBackend'}}</title>
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <link rel="stylesheet" href="{{asset(__ADMIN_PLUGINS__.'/bootstrap/css/bootstrap.min.css')}}">
     <link rel="stylesheet" href="{{asset(__ADMIN_PLUGINS__.'/font-awesome/css/font-awesome.min.css')}}">

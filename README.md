@@ -5,6 +5,12 @@
 [laravel-admin](https://github.com/yuxingfei/laravel-admin) 是基于laravel 7.*的版本和AdminLTE前端样式框架开发的一套通用后台管理系统[laravel-admin](https://github.com/yuxingfei/laravel-admin)。里面吸取了很多开源项目的精髓,laravel 7、AdminLte、mews/captcha等,开箱即用，非常灵活，该版本是v2.0版本，后面根据大家的需求，结合laravel 7的特性，推出更有laravel 7特色的版本。欢迎各位同仁使用后，提出宝贵的意见。欢迎加入laravel-admin通用后台系统技术交流QQ群: **682096728**
 
 ## laravel-admin安装
+
+#### 运行环境
+```
+php7.4版本
+```
+
 #### clone 项目到本地
 ```
 GitHub:   git clone git@github.com:yuxingfei/laravel-admin.git

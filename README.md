@@ -65,6 +65,11 @@ php artisan storage:link
 本项目采用大量的开源代码，包括Laravel7，AdminLTE、mews/captcha等。
 值得注意的是这是Laravel 版本的 通用后台管理系统[laravel-admin](https://github.com/yuxingfei/laravel-admin),如果大家需要thinkphp版本的后台管理系统，可以使用[BearAdmin](https://github.com/yupoxiong/BearAdmin)。
 
+## 科学上网
+顺便推荐两个比较稳定的科学上网，我用了几年了，一直比较稳定
+[樱花云](https://www.sakuras.pro/index.php#/register?code=hxGASdrG)
+[忍者云](https://renzhe.cloud/auth/register?code=GoTA)
+
 交流QQ群：[682096728](https://jq.qq.com/?_wv=1027&k=8SMveoJ0)
 
 ![Image](https://raw.githubusercontent.com/yuxingfei/images/master/qq_share_code.png)

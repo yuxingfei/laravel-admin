@@ -55,7 +55,7 @@ php artisan storage:link
 可参考[Laravel 7 安装配置](https://learnku.com/docs/laravel/7.x/installation/7447)
 
 #### Docker容器部署
-可参考[docker-lnmp环境部署](https://github.com/yuxingfei/docker-lnmp)
+可参考Laravel容器部署方案
 
 #### 访问后台
 访问`/admin`，默认超级管理员的账号密码都为`super_admin`。
